@@ -13,7 +13,7 @@
 最值得先学的三个原则：
 
 1. **先匹配形状，再加特效。** 圆形眼睛、表盘和机械环的位置接近，所以硬切也成立。
-2. **用帧数控制冲击。** 1–3帧负责闪烁与惊吓，4–8帧负责看得见的动作，10–11帧约等于本片一拍。
+2. **用帧数控制冲击。** 1–3帧负责闪烁与惊吓，4–8帧负责看得见的动作，10–11帧适合需要被读清的落稳动作；它是否等于一拍必须人工核拍，不能由算法候选直接推断。
 3. **把素材能力和剪辑能力分开。** PR能复刻节奏、叠层、反相、RGB错位和HUD；真实的机械透视旋转来自3D源动画。
 
 ## 素材与证据
@@ -265,7 +265,7 @@
 
 - [YouTube：How to Create RGB Split Color Glitch Distortion（Justin Odisho）](https://www.youtube.com/watch?v=tBZmONiecyA)（约25.4万播放，4:32）
 - [YouTube：PR原生RGB Split（Dominic Krupp）](https://www.youtube.com/watch?v=Tdxcit2FetI)（约4.4万播放，4:11）
-- [B站：2分钟学会RGB数字故障特效Glitch（无需插件）](https://www.bilibili.com/video/BV157411i7wm/)（约2,900播放，6:34）
+- [B站：2分钟学会RGB数字故障特效Glitch（无需插件）](https://www.bilibili.com/video/BV157411i7wm/)（约2,900播放，6:35）
 - [B站：3分钟教你实现Glitch数字故障转场效果](https://www.bilibili.com/video/BV1Ej411T73M/)（约1.3万播放，3:51）
 
 **速度重映射（speed ramp）**

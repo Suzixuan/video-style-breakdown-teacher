@@ -85,7 +85,7 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 ## 9. 下一步建议（TODO）
 
 - [x] 创建 GitHub 公开仓库并推送首版（分支 `codex/initial-setup` → 重命名为 `main`）
-- [x] 完成 `codex/update-handoff` PR #1 的仓库状态更新与首课PM审稿；是否已合并以GitHub PR状态为准
+- [x] 完成本地 `codex/update-handoff` 分支的仓库状态更新与首课PM审稿；远端同步和合并状态以GitHub PR #1为准
 - [ ] 用真实第二台电脑走一遍"克隆 → 装环境 → 跑拆解"验证交接文档完整性
 - [ ] 扩充更多 Premiere 技法（速度重映射、时间 remap 参数课等）
 - [ ] 改进 onset/节拍检测（降低对密集打击乐的误判）
