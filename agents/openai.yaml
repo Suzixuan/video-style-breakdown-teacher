@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Style Breakdown Teacher"
+  short_description: "Turn any video's first 30s into a Premiere lesson."
+  default_prompt: "Use $video-style-breakdown-teacher to break down this video's editing style into a teachable Premiere lesson."

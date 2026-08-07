@@ -1,0 +1,206 @@
+{
+  "generated": "2026-08-07T05:50:41.274588+00:00",
+  "ranking_note": "Relevance then log-scaled views; unverified entries must be confirmed before use.",
+  "topics": [
+    {
+      "topic": "match-cut",
+      "query": "Premiere Pro match cut transition tutorial",
+      "youtube": [
+        {
+          "title": "The PERFECT Match Cut Transition (Tutorial)",
+          "url": "https://www.youtube.com/watch?v=CWb6ldBOhNE",
+          "views": 1079696,
+          "duration_s": 470,
+          "channel": "Karl Shakur",
+          "verified": true,
+          "rel": 1.0,
+          "score": 0.9586
+        },
+        {
+          "title": "How to do the Match Cut Transition (Video Editing Tutorial)",
+          "url": "https://www.youtube.com/watch?v=4DIhLzkYHMA",
+          "views": 206508,
+          "duration_s": 253,
+          "channel": "Justin Odisho",
+          "verified": true,
+          "rel": 1.0,
+          "score": 0.9278
+        },
+        {
+          "title": "3 Cinematic Match Cut Transitions in Premiere Pro (Tutorial)",
+          "url": "https://www.youtube.com/watch?v=iLOkHLbHpnY",
+          "views": 123398,
+          "duration_s": 305,
+          "channel": "Enam Alamin",
+          "verified": true,
+          "rel": 1.0,
+          "score": 0.9182
+        }
+      ],
+      "bilibili": [
+        {
+          "title": "【PR教程】快速剪辑-插入",
+          "url": "https://www.bilibili.com/video/BV1RM4y1W7iY/",
+          "views": 14768,
+          "duration_s": 86.656,
+          "channel": null,
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1787
+        },
+        {
+          "title": "【剪辑教程】一口气看完！轻松接单变现~这个PR/AE特效转场也太绝了！系统学PR/AE剪辑，看这套教程就够了！ p01 【剪辑系统课】接单变现看这套教程就够了！",
+          "url": "https://www.bilibili.com/video/BV1kyuc6eEFZ/",
+          "views": 2750,
+          "duration_s": 129.544,
+          "channel": null,
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1474
+        },
+        {
+          "title": "【PR教程】这才叫混剪！！新手小白如何做混剪卡点视频教程，看完不会暴打我！！（零基础学剪辑 | 2024新手实用版） p01 【剪辑学习】卡点视频解析",
+          "url": "https://www.bilibili.com/video/BV1ahiuecEZT/",
+          "views": 2358,
+          "duration_s": 297.772,
+          "channel": null,
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1445
+        }
+      ],
+      "youtube_errors": [],
+      "bilibili_errors": []
+    },
+    {
+      "topic": "rgb-glitch",
+      "query": "Premiere Pro glitch RGB split tutorial",
+      "youtube": [
+        {
+          "title": "How to Create RGB Split Color Glitch Distortion Video Effects in Adobe Premiere Pro (Tutorial)",
+          "url": "https://www.youtube.com/watch?v=tBZmONiecyA",
+          "views": 254124,
+          "duration_s": 272,
+          "channel": "Justin Odisho",
+          "verified": true,
+          "rel": 1.0,
+          "score": 0.9316
+        },
+        {
+          "title": "EASY RGB Split/Glitch EFFECT Tutorial | Premiere Pro CC 2020",
+          "url": "https://www.youtube.com/watch?v=QaXQKzz_IWg",
+          "views": 180,
+          "duration_s": 157,
+          "channel": "Ranai R",
+          "verified": true,
+          "rel": 1.0,
+          "score": 0.7968
+        },
+        {
+          "title": "3 EASY RGB Split/Glitch Transitions in Premiere Pro!",
+          "url": "https://www.youtube.com/watch?v=g53Mkkm_ZMI",
+          "views": 165,
+          "duration_s": 452,
+          "channel": "Sukorno Asad",
+          "verified": true,
+          "rel": 1.0,
+          "score": 0.7951
+        }
+      ],
+      "bilibili": [
+        {
+          "title": "2分钟学会RGB数字故障特效Glitch | PR教程 | 无需插件模板",
+          "url": "https://www.bilibili.com/video/BV157411i7wm/",
+          "views": 2873,
+          "duration_s": 394.826,
+          "channel": null,
+          "verified": true,
+          "rel": 0.6666666666666666,
+          "score": 0.6149
+        },
+        {
+          "title": "【PR教程】3分钟教你实现Glitch数字故障转场效果",
+          "url": "https://www.bilibili.com/video/BV1Ej411T73M/",
+          "views": 12548,
+          "duration_s": 231.409,
+          "channel": null,
+          "verified": true,
+          "rel": 0.3333333333333333,
+          "score": 0.409
+        }
+      ],
+      "youtube_errors": [],
+      "bilibili_errors": []
+    },
+    {
+      "topic": "speed-ramp",
+      "query": "PR 速度重映射 教程",
+      "youtube": [
+        {
+          "title": "【PR教程】3分钟轻松实现视频的变速（时间重映射）",
+          "url": "https://www.youtube.com/watch?v=6-oazg_AMEE",
+          "views": 639,
+          "duration_s": 174,
+          "channel": "卡敏与阿超",
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1203
+        },
+        {
+          "title": "【PR教程004】1分钟让你的视频快慢自如轻松实现视频变速（时间重映射）",
+          "url": "https://www.youtube.com/watch?v=zc1AuO0acMU",
+          "views": 588,
+          "duration_s": 67,
+          "channel": "是蛋蛋就是蛋蛋",
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1187
+        },
+        {
+          "title": "Pr CC教程 3 2 视频速度调整 & 关键帧技术 Premiere视频教程",
+          "url": "https://www.youtube.com/watch?v=nuxmvQL4Ays",
+          "views": 294,
+          "duration_s": 585,
+          "channel": "互联网开发教程",
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1058
+        }
+      ],
+      "bilibili": [
+        {
+          "title": "【PR时间重映射教程】如何利用关键帧，完成你想要的视频动画？",
+          "url": "https://www.bilibili.com/video/av83387437/",
+          "views": 4653,
+          "duration_s": 158.44,
+          "channel": null,
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1572
+        },
+        {
+          "title": "视频变速 时间重映射“神奇的变速齿轮”【PremierePro2024 基础教程】",
+          "url": "https://www.bilibili.com/video/BV1xz421e7MU/",
+          "views": 4018,
+          "duration_s": 150.655,
+          "channel": null,
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1545
+        },
+        {
+          "title": "第十八节 视频变速—时间重映射【PR2025 新版快速上手】【PR剪辑】",
+          "url": "https://www.bilibili.com/video/BV1UF7mzzEtY/",
+          "views": 3592,
+          "duration_s": 150.57,
+          "channel": null,
+          "verified": true,
+          "rel": 0.0,
+          "score": 0.1524
+        }
+      ],
+      "youtube_errors": [],
+      "bilibili_errors": []
+    }
+  ]
+}

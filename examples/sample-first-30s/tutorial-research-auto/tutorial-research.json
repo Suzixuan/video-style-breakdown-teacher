@@ -1,0 +1,202 @@
+{
+  "generated_at": "2026-08-07T00:03:11.337883+00:00",
+  "generator": "video-style-breakdown-teacher/search_tutorials.py",
+  "queries": [
+    {
+      "label": "match-cut",
+      "query": "Premiere Pro match cut transition tutorial",
+      "platforms": [
+        {
+          "name": "YouTube",
+          "error": null,
+          "results": [
+            {
+              "label": "match-cut",
+              "query": "Premiere Pro match cut transition tutorial",
+              "platform": "YouTube",
+              "title": "3 Cinematic Match Cut Transitions in Premiere Pro (Tutorial)",
+              "url": "https://www.youtube.com/watch?v=iLOkHLbHpnY",
+              "channel": "Enam Alamin",
+              "view_count": 123391,
+              "duration_seconds": 305,
+              "upload_date": "20211207",
+              "score": 0.9018
+            },
+            {
+              "label": "match-cut",
+              "query": "Premiere Pro match cut transition tutorial",
+              "platform": "YouTube",
+              "title": "Match Cut Transition - Premiere Pro Tutorial",
+              "url": "https://www.youtube.com/watch?v=CSF9krJLSzE",
+              "channel": "Tylo FX",
+              "view_count": 21623,
+              "duration_seconds": 512,
+              "upload_date": "20250116",
+              "score": 0.8867
+            },
+            {
+              "label": "match-cut",
+              "query": "Premiere Pro match cut transition tutorial",
+              "platform": "YouTube",
+              "title": "The PERFECT Match Cut Transition (Tutorial)",
+              "url": "https://www.youtube.com/watch?v=CWb6ldBOhNE",
+              "channel": "Karl Shakur",
+              "view_count": 1079639,
+              "duration_seconds": 470,
+              "upload_date": "20240118",
+              "score": 0.654
+            }
+          ]
+        },
+        {
+          "name": "Bilibili",
+          "error": "ERROR: [BiliBili] 1Hs411E7Z7: Unable to download JSON metadata: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)",
+          "results": []
+        }
+      ]
+    },
+    {
+      "label": "rgb-glitch",
+      "query": "Premiere Pro glitch RGB split tutorial",
+      "platforms": [
+        {
+          "name": "YouTube",
+          "error": null,
+          "results": [
+            {
+              "label": "rgb-glitch",
+              "query": "Premiere Pro glitch RGB split tutorial",
+              "platform": "YouTube",
+              "title": "EASY RGB Split/Glitch EFFECT Tutorial | Premiere Pro CC 2020",
+              "url": "https://www.youtube.com/watch?v=QaXQKzz_IWg",
+              "channel": "Ranai R",
+              "view_count": 180,
+              "duration_seconds": 157,
+              "upload_date": "20200415",
+              "score": 0.8452
+            },
+            {
+              "label": "rgb-glitch",
+              "query": "Premiere Pro glitch RGB split tutorial",
+              "platform": "YouTube",
+              "title": "3 EASY RGB Split/Glitch Transitions in Premiere Pro!",
+              "url": "https://www.youtube.com/watch?v=g53Mkkm_ZMI",
+              "channel": "Sukorno Asad",
+              "view_count": 165,
+              "duration_seconds": 452,
+              "upload_date": "20190715",
+              "score": 0.7111
+            },
+            {
+              "label": "rgb-glitch",
+              "query": "Premiere Pro glitch RGB split tutorial",
+              "platform": "YouTube",
+              "title": "RGB SPLIT EFFECT in Premiere Pro WITHOUT PLUGINS",
+              "url": "https://www.youtube.com/watch?v=Tdxcit2FetI",
+              "channel": "Dominic Krupp",
+              "view_count": 44459,
+              "duration_seconds": 251,
+              "upload_date": "20201110",
+              "score": 0.6263
+            }
+          ]
+        },
+        {
+          "name": "Bilibili",
+          "error": "ERROR: [BiliBili] 1Z44y1272c: Unable to download JSON metadata: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)",
+          "results": []
+        }
+      ]
+    },
+    {
+      "label": "speed-ramp",
+      "query": "PR 速度重映射 教程",
+      "platforms": [
+        {
+          "name": "YouTube",
+          "error": null,
+          "results": [
+            {
+              "label": "speed-ramp",
+              "query": "PR 速度重映射 教程",
+              "platform": "YouTube",
+              "title": "【PR教程】3分钟轻松实现视频的变速（时间重映射）",
+              "url": "https://www.youtube.com/watch?v=6-oazg_AMEE",
+              "channel": "卡敏与阿超",
+              "view_count": 639,
+              "duration_seconds": 174,
+              "upload_date": "20200906",
+              "score": 0.5895
+            },
+            {
+              "label": "speed-ramp",
+              "query": "PR 速度重映射 教程",
+              "platform": "YouTube",
+              "title": "【PR教程004】1分钟让你的视频快慢自如轻松实现视频变速（时间重映射）",
+              "url": "https://www.youtube.com/watch?v=zc1AuO0acMU",
+              "channel": "是蛋蛋就是蛋蛋",
+              "view_count": 588,
+              "duration_seconds": 67,
+              "upload_date": "20210814",
+              "score": 0.5887
+            },
+            {
+              "label": "speed-ramp",
+              "query": "PR 速度重映射 教程",
+              "platform": "YouTube",
+              "title": "PR初级教程：1 2 12视频速度控制 时间重映射",
+              "url": "https://www.youtube.com/watch?v=EUzZPnsehEE",
+              "channel": "自学菌",
+              "view_count": 69,
+              "duration_seconds": 793,
+              "upload_date": "20210129",
+              "score": 0.5702
+            }
+          ]
+        },
+        {
+          "name": "Bilibili",
+          "error": null,
+          "results": [
+            {
+              "label": "speed-ramp",
+              "query": "PR 速度重映射 教程",
+              "platform": "Bilibili",
+              "title": "【PR教程】3分钟彻底搞懂时间重映射！！！",
+              "url": "http://www.bilibili.com/video/av939755085",
+              "channel": "秋叶comfyui教程_",
+              "view_count": 72881,
+              "duration_seconds": 240.093,
+              "upload_date": "20220608",
+              "score": 0.6306
+            },
+            {
+              "label": "speed-ramp",
+              "query": "PR 速度重映射 教程",
+              "platform": "Bilibili",
+              "title": "pr拉/时间重映射/速度线教程",
+              "url": "http://www.bilibili.com/video/av887376884",
+              "channel": "广东市民",
+              "view_count": 53213,
+              "duration_seconds": 332.373,
+              "upload_date": "20210406",
+              "score": 0.6279
+            },
+            {
+              "label": "speed-ramp",
+              "query": "PR 速度重映射 教程",
+              "platform": "Bilibili",
+              "title": "【Pr微教学】如何复制效果属性",
+              "url": "http://www.bilibili.com/video/av1851497715",
+              "channel": "羽尘plumex",
+              "view_count": 12343,
+              "duration_seconds": 61.16,
+              "upload_date": "20240306",
+              "score": 0.3485
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
