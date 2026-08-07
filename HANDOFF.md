@@ -11,7 +11,7 @@
 | 项目 | 路径 |
 |---|---|
 | 本仓库（本地） | `C:\Users\suzix\repos\video-style-breakdown-teacher` |
-| GitHub 公开仓库 | 待创建（见第 8 节） |
+| GitHub 公开仓库 | https://github.com/Suzixuan/video-style-breakdown-teacher（公开，默认分支 main，2026-08-07 建立） |
 | 已安装的 Codex 技能 | `C:\Users\suzix\.codex\skills\video-style-breakdown-teacher` |
 | 技能开发脚手架 | `C:\Users\suzix\.codex\skills\.system\skill-creator`（init_skill.py / quick_validate.py） |
 | 源样片 | 本机：`C:\Users\suzix\Downloads\pS_L7x9PaY1vXXSh.mp4`（1080×1920, 25fps, AAC 44.1kHz, 32.14s）；仓库内副本：`lessons/pS_L7x9PaY1vXXSh/source.mp4`（版权归原作者，仅学习参考） |
@@ -72,10 +72,12 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 - 每次推送一律走**分支**（默认 `codex/` 前缀），禁止直接推送/合并 `main`
 - 推送前向用户确认；合入 `main` 需用户或 PM 明确指示
 - 新建/更新仓库内容都走分支 + Pull Request
+- 首版内容通过 `codex/initial-setup` 分支建立后由 GitHub 官方"分支重命名"接口转为 `main`（全新仓库无历史，重命名非推送/合并，符合上述约定）
 
 ## 9. 下一步建议（TODO）
 
-- [ ] 创建 GitHub 公开仓库并推送首版（分支 + PR，等用户合入 main）
+- [x] 创建 GitHub 公开仓库并推送首版（分支 `codex/initial-setup` → 重命名为 `main`）
+- [ ] 合入 `codex/update-handoff` PR（本文档第 2/8/9 节状态更新）
 - [ ] 用真实第二台电脑走一遍"克隆 → 装环境 → 跑拆解"验证交接文档完整性
 - [ ] 扩充更多 Premiere 技法（速度重映射、时间 remap 参数课等）
 - [ ] 改进 onset/节拍检测（降低对密集打击乐的误判）
