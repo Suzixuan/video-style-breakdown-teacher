@@ -4,3 +4,10 @@ __pycache__/
 Thumbs.db
 *.log
 .tmp/
+
+# Reference media is supplied locally; do not publish third-party source files.
+lessons/**/source.*
+*.mp4
+*.mov
+*.mkv
+*.webm

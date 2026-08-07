@@ -9,7 +9,7 @@
 - **证据先行**：场景检测、事件表拼图、音频波形、节拍候选全部由脚本自动生成（`analysis_manifest.json` 统一定义）。
 - **三种分析模式**：`quick`（约10k–25k tokens）、`teacher`（默认，约30k–70k tokens）、`forensic`（逐源帧，>80k tokens）。
 - **教程检索**：自动收集 YouTube/Bilibili 教程并按相关度＋播放量排名；B 站遇 HTTP 412 时如实标注 `unverified`，绝不编造播放量。
-- **质量校验**：`validate_lesson.py` 检查教案结构完整性（13 项子节闭环）与负面守卫（不声称还原原作者精确预设）。
+- **质量校验**：`validate_lesson.py` 检查教案结构完整性（13 项子节闭环）与负面守卫（不声称还原原作者精确预设、不把未核实BPM直接变成打标命令）。
 - **诚实边界**：明确区分 PR-native / PR-approximation / AE-preferred / 3D-source-required，不把 PR 描述成"一键 3D 特效"。
 
 ## 目录结构
@@ -72,15 +72,15 @@ python scripts/validate_lesson.py 输出目录/lesson.md \
 
 | 课程 | 视频 | 内容 |
 |---|---|---|
-| [pS_L7x9PaY1vXXSh](lessons/pS_L7x9PaY1vXXSh/lesson.md) | 黑白金科幻产品广告（1080×1920, 25fps, 前30秒），源视频见 [source.mp4](lessons/pS_L7x9PaY1vXXSh/source.mp4) | 6 节逐转场教学：闪帧组接、中心轴匹配、眼睛→机械虹膜、HUD负片故障、正负片→X光线稿、表芯穿行→英雄镜头 |
+| [pS_L7x9PaY1vXXSh](lessons/pS_L7x9PaY1vXXSh/lesson.md) | 黑白金科幻产品广告（1080×1920, 25fps, 前30秒）；源视频需由学习者在本地合法取得，不随公开仓库分发 | 6 节逐转场教学：闪帧组接、中心轴匹配、眼睛→机械虹膜、HUD负片故障、正负片→X光线稿、表芯穿行→英雄镜头 |
 
-> 源视频为学习/拆解参考而收录，版权归原作者所有；请勿用于公开分发或商业用途。
+> 证据拼图包含低分辨率参考帧，仅用于评论、教学与课程复核。源视频不随公开仓库分发；使用者应自行确认其素材取得和使用权限。
 
 ## 脚本说明
 
 - **analyze_video.py**：`ffprobe` 读取源参数 → 场景检测（归一化像素差，0.3 阈值，0.5s 内聚簇）→ 概览/事件拼图 → 波形 → 能量 onset 自相关的节拍候选 → 写 `analysis_manifest.json`（schema 1.0）。
 - **collect_tutorials.py**：按主题分组；YouTube 用 yt-dlp 拉实时元数据，B 站从网页搜索 JSON 取候选再尝试补充；评分 = 标题相关度 ×0.7 + 对数播放量 ×0.3。
-- **validate_lesson.py**：检查 9 个顶层章节、每节转场课的 13 个子节、负面守卫（"原片参数/原作者预设/exact preset"断言）、manifest 一致性。
+- **validate_lesson.py**：检查 9 个顶层章节、每节转场课的 13 个子节、负面守卫（精确原片预设断言、未核实BPM打标指令）、manifest 一致性。
 
 ## 长期维护约定
 
@@ -91,4 +91,4 @@ python scripts/validate_lesson.py 输出目录/lesson.md \
 
 ## License
 
-MIT License，详情见 [LICENSE](LICENSE)。
+代码、脚本和本仓库原创文本采用 MIT License，详情见 [LICENSE](LICENSE)。第三方视频内容、品牌、画面角色以及从参考视频抽取的证据帧不因本仓库的 MIT License 获得授权，相关权利仍属于各自权利人。

@@ -37,6 +37,38 @@ BANNED = ["原片参数", "原作者预设", "exact preset", "原片使用了", 
 NEGATION = ("不", "无", "无法", "不能", "禁止", "不要", "避免", "不应", "从未", "并非")
 
 
+def bpm_instruction_violations(text):
+    """Reject turning an unverified numeric BPM into a marker-editing command."""
+    violations = []
+    lines = text.splitlines()
+    danger = re.compile(
+        r"(?:按|用|以)[^。；\n]{0,30}(?:打\s*`?M`?|打标记|铺[^。；\n]{0,10}标记|设置[^。；\n]{0,10}标记)"
+        r"|(?:打\s*`?M`?|打标记|铺[^。；\n]{0,10}标记)[^。；\n]{0,12}(?:按|依据|根据)(?:它|该值|这个值)?"
+    )
+    direct_prohibition = re.compile(r"(?:不要|不应|不能|禁止|避免|切勿|不可)[^。；\n]{0,12}$")
+    for i, line in enumerate(lines):
+        clauses = [part.strip() for part in re.split(r"[。；]", line) if part.strip()]
+        for clause_index, clause in enumerate(clauses):
+            if not re.search(r"\b\d+(?:\.\d+)?\s*BPM", clause, re.IGNORECASE):
+                continue
+            window_parts = [clause]
+            if clause_index + 1 < len(clauses) and re.match(
+                r"^(?:但|但是|然而|仍|却|可是)", clauses[clause_index + 1]
+            ):
+                window_parts.append(clauses[clause_index + 1])
+            if i + 1 < len(lines) and re.match(
+                r"^\s*(?:按|用|以|打|铺)", lines[i + 1]
+            ):
+                window_parts.append(lines[i + 1].strip())
+            window = "；".join(window_parts)
+            for match in danger.finditer(window):
+                prefix = window[max(0, match.start() - 20):match.start()]
+                if not direct_prohibition.search(prefix):
+                    violations.append(f"L{i + 1}: {window.strip()[:140]}")
+                    break
+    return violations
+
+
 def section_map(text):
     """Map heading text -> line index, handling #..#### headings."""
     heads = {}
@@ -131,6 +163,12 @@ def main():
                      if re.search(r"快照|未核实|unverified", text)
                      else "no tutorial snapshot/unverified marker found"],
                     bool(re.search(r"快照|未核实|unverified", text)))
+
+    bpm_bad = bpm_instruction_violations(text)
+    all_ok &= check(["no unverified numeric BPM used as a marker command"
+                     if not bpm_bad else "numeric BPM used as editing instruction:\n      "
+                     + "\n      ".join(bpm_bad)],
+                    not bpm_bad)
 
     if args.manifest:
         print("== manifest consistency ==")
