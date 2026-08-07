@@ -14,13 +14,13 @@
 | GitHub 公开仓库 | https://github.com/Suzixuan/video-style-breakdown-teacher（公开，默认分支 main，2026-08-07 建立） |
 | 已安装的 Codex 技能 | `C:\Users\suzix\.codex\skills\video-style-breakdown-teacher` |
 | 技能开发脚手架 | `C:\Users\suzix\.codex\skills\.system\skill-creator`（init_skill.py / quick_validate.py） |
-| 源样片 | 本机：`C:\Users\suzix\Downloads\pS_L7x9PaY1vXXSh.mp4`（1080×1920, 25fps, AAC 44.1kHz, 32.14s）；仓库内副本：`lessons/pS_L7x9PaY1vXXSh/source.mp4`（版权归原作者，仅学习参考） |
+| 源样片 | 本机曾使用：`C:\Users\suzix\Downloads\pS_L7x9PaY1vXXSh.mp4`（1080×1920, 25fps, AAC 44.1kHz, 32.14s，SHA-256 `c712dc89c57fbfd7405688b976cf1d04fb97dd9087784dc82434b698eb387104`）；公开仓库不再分发源视频，复现者需自行提供有权使用的本地素材 |
 | 交付包原始副本 | `C:\Users\suzix\Downloads\video-style-breakdown-teacher\...\v0.1.0`（含 HANDOFF/SHA256SUMS/检索 JSON） |
 
 ## 3. 环境清单（本机已装，新机器照此装）
 
-- Python 3.14（`C:\Users\suzix\AppData\Local\Python\pythoncore-3.14-64\python.exe`），用户作用域已装：`pyyaml 6.0.3`、`yt-dlp 2026.07.04`、`pillow 12.3.0`
-- FFmpeg 9.0（winget 装，`Gyan.FFmpeg`，路径 `C:\Users\suzix\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_...\ffmpeg-9.0-full_build\bin`，已加入用户 PATH，**新开的终端才生效**）
+- 2026-08-07现场读回：Python 3.13.14（`C:\Users\suzix\AppData\Local\Programs\Python\Python313\python.exe`），PyYAML 6.0.2；当前解释器未安装 Pillow/yt-dlp Python 包，但独立 `yt-dlp.exe` 可用
+- 当前终端的 PATH 中没有系统 `ffmpeg`；现有样例曾用临时 `imageio-ffmpeg` 运行。新机器应按 `README.md` 安装正式 FFmpeg 与 Pillow，并用`ffmpeg -version`、`python -m pip show pillow`读回确认
 - git 2.54（本仓库分支约定见第 8 节）
 - 中文 Windows 注意：**跑任何 Python 脚本加 `PYTHONUTF8=1`**，否则 UTF-8 中文会按 GBK 读取报错
 
@@ -58,14 +58,22 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 - **B 站 412**：yt-dlp 补充元数据遇 HTTP 412 时保留网页搜索条目并标 `unverified`，禁止编造播放量。
 - **主题分组**：搜索 JSON 推荐用 `{"queries": {topic: [...]}}`；平铺 `results` 会让所有候选进入每个主题，造成跨主题污染（已在脚本中修正为支持分组）。
 - **`quick_validate.py` 在中文 Windows**：必须 `PYTHONUTF8=1`。
-- **本环境的图片预览不可用**（view_image 不支持），依赖拼图 + manifest 推理；换机器若有视觉能力，建议逐张核对事件表再定稿。
+- **视觉复核**：2026-08-07 PM已逐张核对6张事件表；课程主要观察与画面一致。以后改时间码或参数时仍须重新逐张核对。
 
 ## 7. 已完成工作（v0.1.0）
 
 - 技能骨架 + SKILL.md + agents/openai.yaml + references/lesson-template.md，`quick_validate` 通过
 - 三个脚本全部实测：analyze_video 在合成测试视频与本样片跑通（manifest schema 1.0）；collect_tutorials 三主题实时检索跑通；validate_lesson 对样例与本课均 PASS
 - 样例产出：`examples/sample-first-30s`（teacher）、`examples/verification-quick`（quick）
-- 正式课程：`lessons/pS_L7x9PaY1vXXSh/`（6 节逐转场教学，校验 PASS，教程链接 14 条含 B 站推荐；源视频副本 `source.mp4` 一并入库）
+- 正式课程：`lessons/pS_L7x9PaY1vXXSh/`（6 节逐转场教学，校验 PASS，教程含YouTube/B站推荐；当前分支已移除第三方源视频，仅保留课程与证据包）
+
+### 2026-08-07 PM审稿
+
+- 视觉审查：逐张核对6张事件表，课程的对象、时序和能力边界与画面基本一致。
+- 重要修正：252.1 BPM只保留为已知不可靠的算法候选；课程改为人工听拍、波形瞬态与帧数三重核对，不再据此自动铺标记。
+- 教程审查：实时读回YouTube/B站标题、播放量和时长；移除偏题的超长合集与180播放候选，补入聚焦且高播放量的匹配剪辑、RGB Split和Speed Ramp教程。
+- 交付安全：从当前分支移除第三方`source.mp4`并加入忽略规则；MIT只覆盖本仓库原创代码与文本，不覆盖第三方画面或证据帧。
+- 验证状态：Python编译通过；课程严格校验与manifest一致性PASS；BPM守卫坏例/否定例回归通过；新增YouTube/B站候选已实时读回标题、播放量和时长。合并前仍须以最终提交重新验证。
 
 ## 8. GitHub 协作约定（用户规则，必须遵守）
 
@@ -77,8 +85,9 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 ## 9. 下一步建议（TODO）
 
 - [x] 创建 GitHub 公开仓库并推送首版（分支 `codex/initial-setup` → 重命名为 `main`）
-- [ ] 合入 `codex/update-handoff` PR（本文档第 2/8/9 节状态更新）
+- [x] 完成 `codex/update-handoff` PR #1 的仓库状态更新与首课PM审稿；是否已合并以GitHub PR状态为准
 - [ ] 用真实第二台电脑走一遍"克隆 → 装环境 → 跑拆解"验证交接文档完整性
 - [ ] 扩充更多 Premiere 技法（速度重映射、时间 remap 参数课等）
 - [ ] 改进 onset/节拍检测（降低对密集打击乐的误判）
 - [ ] 为教程收集器接入网页搜索（B 站候选自动化），减少手工喂 JSON
+- [ ] 公开仓库首个提交的Git历史中仍含第三方`source.mp4`对象；若要从历史彻底移除，需要用户另行授权历史重写或重建仓库

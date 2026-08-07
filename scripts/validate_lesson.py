@@ -37,6 +37,17 @@ BANNED = ["原片参数", "原作者预设", "exact preset", "原片使用了", 
 NEGATION = ("不", "无", "无法", "不能", "禁止", "不要", "避免", "不应", "从未", "并非")
 
 
+def bpm_instruction_violations(text):
+    """Reject turning an unverified numeric BPM into a marker-editing command."""
+    violations = []
+    for i, line in enumerate(text.splitlines(), 1):
+        has_bpm = re.search(r"\b\d+(?:\.\d+)?\s*BPM", line, re.IGNORECASE)
+        gives_marker_instruction = re.search(r"打标记|铺.{0,4}标记|标记网格|作为.{0,6}主拍", line)
+        if has_bpm and gives_marker_instruction and not any(n in line for n in NEGATION):
+            violations.append(f"L{i}: {line.strip()[:100]}")
+    return violations
+
+
 def section_map(text):
     """Map heading text -> line index, handling #..#### headings."""
     heads = {}
@@ -131,6 +142,12 @@ def main():
                      if re.search(r"快照|未核实|unverified", text)
                      else "no tutorial snapshot/unverified marker found"],
                     bool(re.search(r"快照|未核实|unverified", text)))
+
+    bpm_bad = bpm_instruction_violations(text)
+    all_ok &= check(["no unverified numeric BPM used as a marker command"
+                     if not bpm_bad else "numeric BPM used as editing instruction:\n      "
+                     + "\n      ".join(bpm_bad)],
+                    not bpm_bad)
 
     if args.manifest:
         print("== manifest consistency ==")

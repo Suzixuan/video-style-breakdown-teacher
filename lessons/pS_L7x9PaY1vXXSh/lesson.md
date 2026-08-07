@@ -20,7 +20,7 @@
 
 - 30秒共有约750个源帧；概览表抽取60帧，六个事件窗口合计抽取约90帧。事件表不是逐一覆盖全部源帧，时间步长为0.08秒≈2帧。
 - 场景检测得到27个强变化帧，合并后是17个变化簇。故障闪帧会在一个转场内触发多次，因此不能说“有27个镜头”。
-- 音频能量法给出的候选速度约252.1 BPM：一拍约0.24秒≈6帧，半拍约3帧。它是本套检测参数下的能量候选，不是人工确认的乐谱；本课节奏判断以帧数证据为准。
+- 音频能量法把密集打击、纹理声和细分音符识别成208个onset，给出252.1 BPM候选。这个数值更像双倍速/细分脉冲，**不应直接作为主拍BPM或PR标记网格**；本课只把onset当作“值得回听的位置”，节奏判断以人工听拍和帧数证据为准。
 - 本次共使用9张视觉证据，属于中等 token 强度。按证据图、逐转场推理、长篇教学和教程检索综合估算，完整 `teacher` 流程约 **30k–70k model tokens（输入＋输出）**；只做概览的 `quick` 约10k–25k，逐源帧核对的 `forensic` 很容易超过80k。运行环境没有暴露精确计数，这些是规划区间，不是账单数字。
 
 证据入口：
@@ -51,11 +51,11 @@
 
 **时间码证据**：00:00:01.360≈帧34仍是白底角色；00:00:01.440≈帧36切到黑色纹理；00:00:01.520≈帧38出现高亮腕表环；00:00:01.680≈帧42出现腕表；00:00:01.920≈帧48落回角色头盔。见[event-01](evidence/events/event-01-00-00-01-400.jpg)。  
 **观察**：0.56秒内交替出现角色、黑底纹理和腕表，单个插入只持续约2–4帧；画面中心始终被圆形或头部占据，亮度在白—黑—白之间跳变。  
-**判断与置信度**：这是“节拍闪帧＋形状匹配＋短插入蒙太奇”，置信度高；是否使用某个故障插件无法从成片确定。  
+**判断与置信度**：这是“节奏闪帧＋形状匹配＋短插入蒙太奇”，置信度高；是否每个插入都严格踩主拍、是否使用某个故障插件，无法从成片确定。<br>
 **原理**：眼睛来不及阅读细节，却能抓住中心位置和圆形轮廓。短插帧提供冲击，位置连续性负责让冲击不变成随机乱码。  
 **Premiere 操作**：
 
-1. 把音乐放到A1，显示波形，在00:00:01.24和00:00:01.96附近按`M`建立主标记。
+1. 把音乐放到A1并显示波形，循环播放00:00:01.36–00:00:01.96；先凭耳朵在听到的冲击点按`M`，再逐帧微调。自动onset在1.892秒和1.991秒附近给出候选，但不能替代人工听拍。
 2. 在V1放角色主镜头；把腕表和纹理素材放V2，切成2–4帧的小段，交替覆盖V1。
 3. 冻结切点前后画面，临时把V2不透明度降到50%，用`Effect Controls > Motion > Position/Scale`让圆形中心重合。
 4. 需要白闪时，在V4放白色Color Matte，只留1帧；需要黑闪时优先用素材本身的暗帧，不要随意插空黑。
@@ -83,7 +83,7 @@
 4. 若需要软化切口，在切点上方放2–3帧调整图层，使用Directional Blur或Gaussian Blur，从20–35降到0。
 
 **参数起点**：Scale `112%→103%`跨5帧；模糊`25→0`跨3帧；Position只为对齐中心，不做无目的漂移。  
-**为什么这样设**：五帧约半拍，观众能看见“到达”而不会觉得慢；模糊只盖住切口，持续太长会让产品失去质感。  
+**为什么这样设**：五帧是200ms，观众能看见“到达”而不会觉得慢；这里不依赖未经人工确认的BPM。模糊只盖住切口，持续太长会让产品失去质感。<br>
 **失败症状与修正**：若切换仍跳，截取切点两侧截图并用50%不透明度叠在一起重新对齐；若画面出现黑边，降低Scale变化或先放大素材；若模糊显得廉价，完全删除模糊检查纯硬切是否已经成立。  
 **迁移思路**：任何“中心物体接力”都适用，例如车轮→手表→月亮。  
 **练习**：用三个圆形物体做10帧组合，并分别试纯硬切与3帧模糊版。  
@@ -110,7 +110,7 @@
 **迁移思路**：眼睛→镜头光圈、地铁隧道→唱片孔、咖啡旋涡→排水口都能使用“中心推进＋圆形比喻”。  
 **练习**：用一张眼睛图和一张相机光圈图完成12帧转场，只允许Motion和一个椭圆遮罩。  
 **验收**：关掉遮罩后两侧圆心仍对齐；播放时观众先感到“钻入”，再意识到物体改变。  
-**教程**：[Adobe：关键帧速度与Bezier图形](https://helpx.adobe.com/premiere/desktop/add-video-effects/control-effects-and-transitions-using-keyframes/edit-keyframes-graphs.html)；[Adobe：形状遮罩](https://helpx.adobe.com/premiere/desktop/add-video-effects/work-with-masks/create-masks-using-shapes.html)；[B站：3种匹配剪辑手法](https://www.bilibili.com/video/BV1vf421f7ra/)（播放量未核实；图形、动作、声音三类思路）  
+**教程**：[Adobe：关键帧速度与Bezier图形](https://helpx.adobe.com/premiere/desktop/add-video-effects/control-effects-and-transitions-using-keyframes/edit-keyframes-graphs.html)；[Adobe：形状遮罩](https://helpx.adobe.com/premiere/desktop/add-video-effects/work-with-masks/create-masks-using-shapes.html)；[B站：3种匹配剪辑手法](https://www.bilibili.com/video/BV1vf421f7ra/)（约13.2万播放，6:36，快照2026-08-07；图形、动作、声音三类思路）<br>
 **能力边界**：PR-approximation；机械几何展开属于3D/source-required。
 
 ### T04 HUD扫描人物进入负片故障
@@ -171,7 +171,7 @@
 4. 把金属whoosh或impact放A2，峰值对准硬切，尾音跨到完整产品镜头形成声音桥。
 
 **参数起点**：切点误差±1帧；表背Scale `112→100%/5帧`；完整产品稳定8帧；声音峰值对准帧544。  
-**为什么这样设**：5帧约半拍，能把尺度跳跃读成“落稳”；8帧让观众完成产品识别。声音尾巴跨切点会把两个空间粘在一起。  
+**为什么这样设**：5帧是200ms，足以把尺度跳跃读成“落稳”；8帧让观众完成产品识别。声音尾巴跨切点会把两个空间粘在一起。<br>
 **失败症状与修正**：若像突然换素材，先对齐圆心和高光运动方向；若数字放大出现假3D，停止继续推Scale，换有真实相机运动的源素材；若完整表体一闪而过，延长英雄镜头而不是继续加特效。  
 **迁移思路**：汽车引擎→整车、相机快门→整机、鞋底纹理→整鞋都能使用“细节探索→完整答案”。  
 **练习**：用一个微距视频和一个完整产品静帧做12–16帧转场，重点是圆形或高光方向对齐。  
@@ -193,10 +193,19 @@
 
 ### 建议搭建顺序
 
-1. **结构剪辑**：只用V1和A1完成30秒的镜头顺序，按252.1 BPM候选打标记（若你听到的节奏明显不同，以你的听感为准，改标记即可）。
+1. **结构剪辑**：只用V1和A1完成30秒的镜头顺序。不要按252.1 BPM自动铺满标记；先按乐句和强冲击人工打`M`，再检查画面切点是否落在同一帧或前后1帧。
 2. **关键帧与节奏**：完成圆心对齐、Scale落稳和2–4帧插入；此时不要加HUD。
 3. **合成与遮罩**：加入RGB复制层、线稿、HUD和必要遮罩；每加一层都要能单独关闭。
 4. **调色与声音**：统一黑白金，最后加反相、白闪、impact和whoosh。
+
+### 初学者手动核拍法
+
+1. 关闭画面，只听音乐；连续两次各数4拍并按`M`，不要先看算法BPM。
+2. 打开波形，把标记吸附到最近的明显瞬态；若波形很密，只保留你能稳定拍手跟随的主脉冲。
+3. 打开画面，检查重要切点与标记的误差。允许故意提前1帧制造冲击，但必须能说出原因。
+4. 若自动BPM接近你手拍结果的2倍或一半，先判断它抓到的是细分或半速，不要为了迁就算法重剪画面。
+
+验收：静音时剪辑仍有视觉节奏；只听音频时能稳定数满两个4拍；算法BPM被删除后，你的标记仍可复现。
 
 ## 分层练习
 
@@ -237,35 +246,34 @@
 9. [YouTube：The PERFECT Match Cut Transition](https://www.youtube.com/watch?v=CWb6ldBOhNE)（约108万播放，数据快照2026-08-07）
 10. [YouTube：PR原生RGB Split](https://www.youtube.com/watch?v=Tdxcit2FetI)（约4.4万播放，数据快照2026-08-06）
 11. [B站：利用PR时间重映射打造变速剪辑](https://www.bilibili.com/video/BV1MS4y1r7Am/)（约11.7万播放，数据快照2026-08-06；作为拓展练习，本样片不据此断言存在速度重映射）
-12. [B站：3种匹配剪辑手法](https://www.bilibili.com/video/BV1vf421f7ra/)（播放量未核实，数据快照2026-08-06）
+12. [B站：3种匹配剪辑手法](https://www.bilibili.com/video/BV1vf421f7ra/)（约13.2万播放，6:36，数据快照2026-08-07）
 13. [B站：视频变速 时间重映射“神奇的变速齿轮”（PR2024 基础教程）](https://www.bilibili.com/video/BV1xz421e7MU/)（约4,000播放，数据快照2026-08-07）
 14. [B站：第十八节 视频变速—时间重映射（PR2025 新版快速上手）](https://www.bilibili.com/video/BV1UF7mzzEtY/)（约3,600播放，数据快照2026-08-07）
 
 ### 推荐教程视频（2026-08-07 检索快照）
 
-以下为教程检索快照（`tutorial-research-auto/tutorial-research.md`）的推荐项，按主题分组；播放量为快照当日数据，使用前请打开确认其确实演示了对应技法。
+以下候选以教程检索快照（`tutorial-research-auto/tutorial-research.md`）为起点，并补充本次实时搜索，再由教师审稿筛掉偏题合集、预设广告和过长系统课。播放量为快照当日数据，使用前仍应打开确认其演示了对应技法。
 
 **匹配剪辑（match cut）**
 
 - [YouTube：The PERFECT Match Cut Transition（Karl Shakur）](https://www.youtube.com/watch?v=CWb6ldBOhNE)（约108万播放，7:50）
 - [YouTube：How to do the Match Cut Transition（Justin Odisho）](https://www.youtube.com/watch?v=4DIhLzkYHMA)（约20.7万播放，4:13）
 - [YouTube：3 Cinematic Match Cut Transitions（Enam Alamin）](https://www.youtube.com/watch?v=iLOkHLbHpnY)（约12.3万播放，5:05）
-- [B站：快速剪辑-插入（转场合集，含形状/遮挡物转场）](https://www.bilibili.com/video/BV1RM4y1W7iY/)（约1.5万播放，1:26）
-- [B站：PR/AE特效转场系统课](https://www.bilibili.com/video/BV1kyuc6eEFZ/)（约2,800播放）
-- [B站：混剪卡点教程（含匹配剪辑手法）](https://www.bilibili.com/video/BV1ahiuecEZT/)（约2,400播放，4:57）
+- [B站：“无缝剪辑”，你必须知道的3种匹配剪辑手法](https://www.bilibili.com/video/BV1vf421f7ra/)（约13.2万播放，6:36；直接讲图形、动作、声音匹配）
 
 **RGB 故障 / 错位（rgb-glitch）**
 
 - [YouTube：How to Create RGB Split Color Glitch Distortion（Justin Odisho）](https://www.youtube.com/watch?v=tBZmONiecyA)（约25.4万播放，4:32）
 - [YouTube：PR原生RGB Split（Dominic Krupp）](https://www.youtube.com/watch?v=Tdxcit2FetI)（约4.4万播放，4:11）
-- [YouTube：EASY RGB Split/Glitch EFFECT（Ranai R）](https://www.youtube.com/watch?v=QaXQKzz_IWg)（180播放，2:37）
 - [B站：2分钟学会RGB数字故障特效Glitch（无需插件）](https://www.bilibili.com/video/BV157411i7wm/)（约2,900播放，6:34）
 - [B站：3分钟教你实现Glitch数字故障转场效果](https://www.bilibili.com/video/BV1Ej411T73M/)（约1.3万播放，3:51）
 
 **速度重映射（speed ramp）**
 
+- [YouTube：My SECRET To Smooth Speed Ramp Transitions!（Camilo Castañeda）](https://www.youtube.com/watch?v=85bb-oveozc)（约100万播放，2:39）
+- [YouTube：Smooth Speed Ramp in Premiere Pro!（Adobe in a Minute）](https://www.youtube.com/watch?v=gtrcAKl1Rfs)（约66万播放，2:52）
 - [YouTube：PR Tutorial｜时间重映射 Speed Ramping（黄豆Bean）](https://www.youtube.com/watch?v=ctyQKmYf8XU)（约1.9万播放，11:05）
-- [YouTube：3分钟轻松实现视频的变速（卡敏与阿超）](https://www.youtube.com/watch?v=6-oazg_AMEE)（639播放，2:54）
+- [B站：利用PR时间重映射打造变速剪辑（剪极社）](https://www.bilibili.com/video/BV1MS4y1r7Am/)（约11.7万播放，5:22）
 - [B站：PR时间重映射教程·利用关键帧做速度转场](https://www.bilibili.com/video/av83387437/)（约4,700播放，2:38）
 - [B站：视频变速 时间重映射“神奇的变速齿轮”（PR2024）](https://www.bilibili.com/video/BV1xz421e7MU/)（约4,000播放，2:30）
 - [B站：第十八节 视频变速—时间重映射（PR2025 新版快速上手）](https://www.bilibili.com/video/BV1UF7mzzEtY/)（约3,600播放，2:30）
