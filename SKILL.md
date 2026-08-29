@@ -1,11 +1,15 @@
 ---
 name: video-style-breakdown-teacher
-description: "视频风格拆解教学（Video Style Breakdown Teacher）。Use when the user asks to break down a video's editing style into a teachable Premiere Pro lesson: identifying match cuts, insert-frame flashes, speed ramps, RGB/glitch separation, HUD layers, positive/negative flips, beat-matched transitions, and 3D/source-dependent shots from the first 30 seconds of a video, then producing an evidence-backed Chinese lesson with PR-native recreation steps, starting parameters, exercises, and tutorial links. Triggers include 视频拆解、剪辑风格分析、转场拆解、Premiere 教学、break down this video's editing, teach this video's style."
+description: "视频风格拆解与 Premiere 微课程编排（Video Style Breakdown Teacher）。Use when the user asks to analyze a reference video's editing style, identify effects or transitions, learn Premiere from that reference, or turn the evidence into a prerequisite-aware curriculum with practical exercises and PASS checkpoints. Produces an evidence-backed lesson plus curriculum.yaml and units/*.yaml when Curriculum mode is requested; distinguishes PR-native approximations from effects that require After Effects, 3D, plug-ins, or source animation. Triggers include 视频拆解、剪辑风格分析、转场拆解、Premiere 教学、PR 私人教练、课程路线、break down this video's editing, teach this video's style."
 ---
 
 # Video Style Breakdown Teacher
 
-把任意视频的片段（默认前 30 秒）拆解成一份可教学的 Premiere 教案。先产出视觉与音频证据，再逐转场推理，最后按固定模板写课，并用校验脚本守住质量底线。
+Current release: **0.2.0 — Interactive Curriculum**.
+
+把任意视频的片段（默认前 30 秒）拆解成可教学的 Premiere 教案，并在 Curriculum 模式下把复杂效果拆成有依赖关系、可操作、可验收的微课程。先产出视觉与音频证据，再推理；Python 负责 evidence/schema/validation，Codex 负责教育拆解与排课。
+
+v0.1 的 `lesson.md` 工作流继续可用。v0.2 不连接 Premiere MCP，也不能声称已检查用户工程；交互式只读 Coach 属于后续阶段。
 
 ## 锁定决策（不可违反）
 
@@ -13,6 +17,20 @@ description: "视频风格拆解教学（Video Style Breakdown Teacher）。Use 
 2. **观察 / 推断 / 复刻分离**：教案中必须区分"证据中看到"（观察）、"据此判断"（推断/置信度）、"PR 复刻参数"（复刻），三者不能混写。
 3. **每一节转场课必须闭环**：观察→原理→PR 操作→参数起点→为什么→失败修正→迁移→练习→验收→教程→能力边界，缺一不可（`validate_lesson.py` 会检查）。
 4. **绝不声称还原原作者精确预设**：只能给"PR 复刻起点"参数；无法从成片确定的插件、预设、轨道结构一律标"无法确定"。
+5. **复杂效果先拆能力**：不再默认“一个转场 = 一课”。当效果同时引入超过 3 个新 Premiere 概念时，必须拆成前置微课程与综合课。
+6. **教育优先**：每课只有一个主要目标，要求学习者完成实际作品，并提供结构、参数、视觉三类 PASS 条件；默认不替学习者完成练习。
+
+## 选择输出模式
+
+- **Breakdown（兼容 v0.1）**：用户只要拆片报告时，生成 `lesson.md` 并运行 `validate_lesson.py`。
+- **Curriculum（v0.2）**：用户要学习路线、微课程或“私人教练”时，在 Breakdown 证据基础上额外生成 `curriculum.yaml` 与 `units/*.yaml`，并运行两种 validator。
+
+Curriculum 模式开始前读取：
+
+- [references/skill-taxonomy.md](references/skill-taxonomy.md)：选择 canonical skill ID 和依赖；
+- [references/curriculum-schema.md](references/curriculum-schema.md)：建立课程地图；
+- [references/unit-schema.md](references/unit-schema.md)：编写每课练习与 checkpoint；
+- [references/coach-behavior.md](references/coach-behavior.md)：保持教育优先和当前无 MCP 的边界。
 
 ## 工作流
 
@@ -81,6 +99,36 @@ python scripts/validate_lesson.py 输出目录/lesson.md \
 
 校验通过（exit 0）才算完成。失败时按提示修复后重跑，不要跳过。
 
+### 7. Curriculum Compiler（仅 Curriculum 模式）
+
+从参考片最终效果向前寻找真正需要的 prerequisite，而不是从 Premiere 全功能开始讲：
+
+```text
+analysis_manifest.json + lesson.md
+→ Codex 区分最终效果与基础能力
+→ 按 taxonomy 建立 skill graph
+→ curriculum.yaml
+→ units/Lxx.yaml
+→ validate_curriculum.py
+```
+
+编排约束：
+
+- 普通微课程 10–25 分钟，综合/Capstone 30–60 分钟；
+- 一课一个 `primary_skill`，最多 3 个 `new_skills`；
+- 每课有实际 `exercise.deliverable`、三类 checkpoint 和至少一个 tutorial topic；
+- 教程按本课 skill 检索，每课最多 1–3 个，相关片段未核实就不编 timestamp；
+- Capstone 复刻剪辑语言和原则，不要求像素级复制；
+- 3D/预渲染源动画只能作为合法取得的素材输入，不能写成 PR 自己生成。
+
+运行：
+
+```bash
+python scripts/validate_curriculum.py 输出目录/curriculum.yaml --strict
+```
+
+首次回复不要倾倒全部课程。只概述最终目标、课数、为什么从第一课开始，并邀请用户打开 Premiere；在 v0.2 无 MCP 时，后续只能引导用户按 Unit 自查。
+
 ## 能力边界（对用户要诚实）
 
 - 能高置信识别：形状匹配、插帧长度、亮度翻转、RGB 边缘、HUD 叠层、节奏关系。
@@ -93,6 +141,10 @@ python scripts/validate_lesson.py 输出目录/lesson.md \
 - `scripts/analyze_video.py` — 证据包生成（场景检测、概览/事件拼图、波形、节拍候选、manifest）。
 - `scripts/collect_tutorials.py` — YouTube/Bilibili 教程检索、排名、快照生成。
 - `scripts/validate_lesson.py` — 教案结构与负面守卫校验。
+- `scripts/validate_curriculum.py` — 课程/技能依赖、Unit 练习、checkpoint、教程主题与 Capstone 校验。
 - `references/lesson-template.md` — 教案模板与每节要求（写作时必读）。
+- `references/skill-taxonomy.md` — v0.2 canonical skill ID 与依赖。
+- `references/curriculum-schema.md`、`references/unit-schema.md` — 机器课程地图与 Unit 格式。
+- `references/coach-behavior.md` — 教育优先状态机及未来 MCP 权限边界。
 - `examples/sample-first-30s/` — teacher 模式完整样例（教案＋证据＋教程快照）。
 - `examples/verification-quick/` — quick 模式样例（轻量证据）。

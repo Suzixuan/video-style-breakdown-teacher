@@ -1,0 +1,29 @@
+id: L10
+title: 波形与手工 Beat Cutting
+type: micro
+goal: 不依赖不可靠 BPM 数字，按听感和波形瞬态手工安排短切。
+primary_skill: beat-cutting
+new_skills: [waveform, markers, beat-cutting]
+skills: [waveform, markers, beat-cutting, razor-cut]
+prerequisites: [L01]
+estimated_minutes: 20
+source_reference: {start: 0.80, end: 4.80}
+capability: PR-native
+assets: {required: [带清晰瞬态的音乐, L01 的短切练习]}
+exercise:
+  description: 先听后看波形，用 M 手工标出 4 个短语重音并把插入剪辑靠近这些点。
+  deliverable: 一段由人工核拍完成、至少有 4 个可解释标记的短切
+steps:
+  - {id: step-1, instruction: 循环播放并手工按 M 标记听到的短语重音，不按 252.1 BPM 自动铺点。, verify: {type: markers}}
+  - {id: step-2, instruction: 对照波形瞬态微调标记，再安排切点。, verify: {type: timeline}}
+checkpoints:
+  structural:
+    - {id: manual-markers, pass: 至少 4 个标记由人工听拍建立且对应实际切点}
+  parameter:
+    - {id: frame-check, pass: 标记与可听瞬态的偏差经逐帧检查，不依赖未核实 BPM 网格}
+  visual:
+    - {id: phrase-rhythm, pass: 正常播放时短切服务于乐句重音，而不是机械等距闪烁}
+tutorials:
+  topics: [Premiere waveform editing, Premiere markers beat editing]
+challenge: 换一首歌，只标短语重音而不是每个鼓点。
+next: L11

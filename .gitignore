@@ -4,6 +4,20 @@ __pycache__/
 Thumbs.db
 *.log
 .tmp/
+.cache/
+.coach/
+.env
+.env.*
+!.env.example
+
+# Local Premiere practice/demo projects and generated media caches stay local.
+COURSE_*_PRACTICE*.prproj
+COURSE_*_DEMO*.prproj
+Adobe Premiere Pro Auto-Save/
+Media Cache*/
+*.pek
+*.cfa
+*.ims
 
 # Reference media is supplied locally; do not publish third-party source files.
 lessons/**/source.*

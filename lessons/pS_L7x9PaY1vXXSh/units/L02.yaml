@@ -1,0 +1,29 @@
+id: L02
+title: Position / Scale 视觉对齐
+type: micro
+goal: 用 Position 和 Scale 让两个圆形主体占据相近的画面位置与尺寸。
+primary_skill: position
+new_skills: [position, scale]
+skills: [position, scale]
+prerequisites: [L01]
+estimated_minutes: 20
+source_reference: {start: 1.88, end: 3.08}
+capability: PR-native
+assets: {required: [两个带圆形主体的镜头]}
+exercise:
+  description: 调整两个镜头的 Motion，让圆心和直径在切点前后大致连续。
+  deliverable: 两张主体圆心与尺寸基本一致的切点帧
+steps:
+  - {id: step-1, instruction: 把两个镜头相邻放在 V1 并停在切点前后。, verify: {type: timeline}}
+  - {id: step-2, instruction: 只调整 Position 和 Scale，不添加模糊或故障效果。, verify: {type: clip-properties}}
+checkpoints:
+  structural:
+    - {id: adjacent-pair, pass: 两个镜头相邻且位于同一视频轨道}
+  parameter:
+    - {id: motion-used, pass: Position 与 Scale 已按构图调整且 Scale 保持正值}
+  visual:
+    - {id: circle-alignment, pass: 切点前后圆心偏移约不超过画面宽度 3%，尺寸无明显跳变}
+tutorials:
+  topics: [Premiere position scale basics]
+challenge: 换成眼睛与相机镜头，再做一次位置和尺寸对齐。
+next: L03

@@ -1,6 +1,6 @@
 # Video Style Breakdown Teacher
 
-把任意视频的剪辑风格拆解成一份可教学的 Premiere Pro 教案。先产出视觉与音频证据，再逐转场推理，最后按固定模板写课，并用校验脚本守住质量底线。
+把任意视频的剪辑风格拆解成一份可教学的 Premiere Pro 教案，并进一步编排为有依赖关系、可实践、可验收的微课程。当前版本：**v0.2.0 Interactive Curriculum**。
 
 本仓库是一个**长期学习与更新**的仓库：技能脚本、教案模板、已拆解的课程都会持续沉淀在这里。
 
@@ -10,7 +10,11 @@
 - **三种分析模式**：`quick`（约10k–25k tokens）、`teacher`（默认，约30k–70k tokens）、`forensic`（逐源帧，>80k tokens）。
 - **教程检索**：自动收集 YouTube/Bilibili 教程并按相关度＋播放量排名；B 站遇 HTTP 412 时如实标注 `unverified`，绝不编造播放量。
 - **质量校验**：`validate_lesson.py` 检查教案结构完整性（13 项子节闭环）与负面守卫（不声称还原原作者精确预设、不把未核实BPM直接变成打标命令）。
+- **课程编排**：`curriculum.yaml` 建立 skill graph，`units/*.yaml` 把复杂效果拆成 10–25 分钟微课程与 30–60 分钟综合课。
+- **课程校验**：`validate_curriculum.py` 检查依赖环、悬空引用、练习交付物、三类 PASS checkpoint、教程主题与 Capstone。
 - **诚实边界**：明确区分 PR-native / PR-approximation / AE-preferred / 3D-source-required，不把 PR 描述成"一键 3D 特效"。
+
+> v0.2 尚未连接 Premiere MCP：它能生成和校验课程，但不能读取或修改用户的 PR 工程。MCP 只读 Coach 是后续版本。
 
 ## 目录结构
 
@@ -19,22 +23,27 @@ video-style-breakdown-teacher/
 ├── SKILL.md                  # 技能入口（可直接作为 Codex 技能安装）
 ├── HANDOFF.md                # 内部交接文档（换电脑继续工作的说明）
 ├── agents/openai.yaml        # 技能 UI 元数据
-├── scripts/                  # 三个可执行脚本
+├── scripts/                  # 证据、教程与校验脚本
 │   ├── analyze_video.py      # 证据包生成（场景/概览/事件/波形/节拍/manifest）
 │   ├── collect_tutorials.py  # YouTube/Bilibili 教程检索、排名、快照
-│   └── validate_lesson.py    # 教案结构与负面守卫校验
+│   ├── validate_lesson.py    # 教案结构与负面守卫校验
+│   └── validate_curriculum.py # 课程依赖与 Unit 校验
 ├── references/
-│   └── lesson-template.md    # 教案模板（写作必读）
+│   ├── lesson-template.md    # 教案模板（写作必读）
+│   ├── skill-taxonomy.md     # canonical skill ID
+│   ├── curriculum-schema.md  # 课程地图 schema
+│   ├── unit-schema.md        # 微课程 schema
+│   └── coach-behavior.md     # Coach 行为与版本边界
 ├── examples/                 # 样例产出（teacher 模式 + quick 模式）
 └── lessons/                  # 已拆解的课程（长期累积）
-    └── pS_L7x9PaY1vXXSh/     # 示例：黑白金科幻产品广告 前30秒拆解
+    └── pS_L7x9PaY1vXXSh/     # lesson.md + curriculum.yaml + 12 个 units
 ```
 
 ## 快速开始
 
 ### 环境要求
 
-- Python 3.10+，建议 Pillow（拼图与波形）
+- Python 3.10+；PyYAML 为课程校验必需，建议安装 Pillow（拼图与波形）
 - `ffmpeg` / `ffprobe` 在 PATH
 - 可选：`yt-dlp`（教程收集的实时元数据）
 
@@ -64,6 +73,9 @@ python scripts/collect_tutorials.py --out 输出目录 \
 # 4. 校验
 python scripts/validate_lesson.py 输出目录/lesson.md \
   --manifest 输出目录/evidence/analysis_manifest.json
+
+# Curriculum 模式再运行
+python scripts/validate_curriculum.py 输出目录/curriculum.yaml --strict
 ```
 
 校验通过（exit 0）才算完成。
@@ -72,7 +84,7 @@ python scripts/validate_lesson.py 输出目录/lesson.md \
 
 | 课程 | 视频 | 内容 |
 |---|---|---|
-| [pS_L7x9PaY1vXXSh](lessons/pS_L7x9PaY1vXXSh/lesson.md) | 黑白金科幻产品广告（1080×1920, 25fps, 前30秒）；源视频需由学习者在本地合法取得，不随公开仓库分发 | 6 节逐转场教学：闪帧组接、中心轴匹配、眼睛→机械虹膜、HUD负片故障、正负片→X光线稿、表芯穿行→英雄镜头 |
+| [pS_L7x9PaY1vXXSh](lessons/pS_L7x9PaY1vXXSh/lesson.md) | 黑白金科幻产品广告（1080×1920, 25fps, 前30秒）；源视频需由学习者在本地合法取得，不随公开仓库分发 | 保留 6 节逐转场人读教案，并新增 [12 课学习路线](lessons/pS_L7x9PaY1vXXSh/curriculum.yaml)：帧级短切 → Position/Scale → Match Cut → Push/Bezier → Mask → Invert/RGB/HUD → Beat Cutting → 综合复刻与 Capstone |
 
 > 证据拼图包含低分辨率参考帧，仅用于评论、教学与课程复核。源视频不随公开仓库分发；使用者应自行确认其素材取得和使用权限。
 
@@ -81,6 +93,7 @@ python scripts/validate_lesson.py 输出目录/lesson.md \
 - **analyze_video.py**：`ffprobe` 读取源参数 → 场景检测（归一化像素差，0.3 阈值，0.5s 内聚簇）→ 概览/事件拼图 → 波形 → 能量 onset 自相关的节拍候选 → 写 `analysis_manifest.json`（schema 1.0）。
 - **collect_tutorials.py**：按主题分组；YouTube 用 yt-dlp 拉实时元数据，B 站从网页搜索 JSON 取候选再尝试补充；评分 = 标题相关度 ×0.7 + 对数播放量 ×0.3。
 - **validate_lesson.py**：检查 9 个顶层章节、每节转场课的 13 个子节、负面守卫（精确原片预设断言、未核实BPM打标指令）、manifest 一致性。
+- **validate_curriculum.py**：读取课程、taxonomy 与全部 Unit，检查技能/课程图无环、课程顺序、时长、练习、三类 checkpoint、tutorial topic 与最终 Capstone。
 
 ## 长期维护约定
 

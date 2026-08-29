@@ -1,0 +1,29 @@
+id: L08
+title: 6 帧 RGB Split
+type: micro
+goal: 制作一个短促且仍可辨认主体的 RGB 通道错位故障。
+primary_skill: rgb-split
+new_skills: [rgb-split]
+skills: [rgb-split, adjustment-layer, track-management]
+prerequisites: [L07]
+estimated_minutes: 25
+source_reference: {start: 6.80, end: 8.00}
+capability: PR-approximation
+assets: {required: [L07 的人物镜头]}
+exercise:
+  description: 用通道分离或颜色偏移方法制作一个约 6 帧 RGB 故障。
+  deliverable: 一个边缘出现彩色错位、主体仍可识别的 6 帧故障段
+steps:
+  - {id: step-1, instruction: 把效果限制在约 6 帧的调整图层或嵌套片段。, verify: {type: clip-duration}}
+  - {id: step-2, instruction: 小幅错开颜色通道，先追求可读性再加位移。, verify: {type: effects}}
+checkpoints:
+  structural:
+    - {id: isolated-effect, pass: RGB 故障被限制在独立的约 6 帧范围}
+  parameter:
+    - {id: channel-offset, pass: 至少两个颜色通道产生可见但不过量的空间错位}
+  visual:
+    - {id: subject-readable, pass: 彩边清晰但主体轮廓仍可辨认，没有整段糊成色块}
+tutorials:
+  topics: [Premiere RGB split, Premiere glitch effect no plugin]
+challenge: 做一个 3 帧版本并比较“重音”和“拖沓”的边界。
+next: L09

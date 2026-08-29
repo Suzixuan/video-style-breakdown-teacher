@@ -1,0 +1,29 @@
+id: L03
+title: 圆形 Match Cut
+type: micro
+goal: 把视觉对齐转化为一次有连续感的硬切。
+primary_skill: match-cut
+new_skills: [match-cut]
+skills: [match-cut, position, scale, hard-cut]
+prerequisites: [L01, L02]
+estimated_minutes: 20
+source_reference: {start: 1.36, end: 3.08}
+capability: PR-native
+assets: {required: [头盔镜头, 表盘镜头, 眼睛镜头]}
+exercise:
+  description: 制作“头盔 → 表盘 → 眼睛”的两次中心轴 Match Cut。
+  deliverable: 三镜头连续且主体中心不明显跳动的硬切组
+steps:
+  - {id: step-1, instruction: 先只完成三个镜头的硬切顺序。, verify: {type: timeline}}
+  - {id: step-2, instruction: 逐个切点微调 Position 和 Scale，让圆形主体承接。, verify: {type: framing}}
+checkpoints:
+  structural:
+    - {id: three-clips, pass: 三个 Clip 顺序正确、相邻、无空帧}
+  parameter:
+    - {id: per-cut-motion, pass: 两个切点均使用 Position 或 Scale 完成构图修正}
+  visual:
+    - {id: shape-continuity, pass: 正常播放时先感到形状连续，再意识到主体已变化}
+tutorials:
+  topics: [Premiere match cut, Premiere position scale]
+challenge: 用“眼睛 → 相机镜头”重做一次，不复用本课素材。
+next: L04

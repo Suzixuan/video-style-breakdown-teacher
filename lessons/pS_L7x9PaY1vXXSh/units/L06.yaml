@@ -1,0 +1,29 @@
+id: L06
+title: 圆形 Mask Transition
+type: micro
+goal: 用圆形蒙版把眼睛推进连接到已准备好的机械虹膜素材。
+primary_skill: mask-transition
+new_skills: [opacity, mask, mask-transition]
+skills: [opacity, mask, mask-transition, keyframes, position, scale]
+prerequisites: [L03, L04, L05]
+estimated_minutes: 25
+source_reference: {start: 3.60, end: 4.80}
+capability: 3D-source-required
+assets: {required: [眼睛镜头, 已渲染的机械虹膜或可替代圆形素材]}
+exercise:
+  description: 用 Ellipse Mask 和推进完成眼睛到圆形目标的近似转场。
+  deliverable: 一个边缘不突兀、中心连续的圆形蒙版转场
+steps:
+  - {id: step-1, instruction: 先把眼睛和目标素材的圆心对齐。, verify: {type: framing}}
+  - {id: step-2, instruction: 为 Opacity 的 Ellipse Mask 建立扩张或收缩关键帧。, verify: {type: effect-parameters}}
+checkpoints:
+  structural:
+    - {id: layered-pair, pass: 两个素材按蒙版揭示需要正确重叠且没有空帧}
+  parameter:
+    - {id: animated-mask, pass: Ellipse Mask 至少有两个关键帧且羽化不过度吞掉主体}
+  visual:
+    - {id: circular-reveal, pass: 圆心与运动方向连续；机械虹膜动画本身来自源素材而非虚构 PR 生成}
+tutorials:
+  topics: [Premiere ellipse mask animation, Premiere mask transition]
+challenge: 用相机镜头或隧道入口替代机械虹膜素材。
+next: L07

@@ -1,0 +1,64 @@
+version: "2.0"
+course_id: pS_L7x9PaY1vXXSh
+taxonomy: ../../references/skill-taxonomy.md
+
+video:
+  id: pS_L7x9PaY1vXXSh
+  range:
+    start: 0.0
+    end: 30.0
+  fps: 25
+
+goal:
+  description: >-
+    从帧级短切、形状匹配和关键帧运动开始，逐步复刻参考视频
+    00:01.36–00:04.72 的高速科技产品广告剪辑语言，并迁移到自己的 5 秒片段。
+
+difficulty:
+  overall: beginner-intermediate
+
+skills:
+  - {id: timeline-navigation, name: 时间线与播放头, level: beginner, requires: []}
+  - {id: razor-cut, name: 剃刀与帧级切割, level: beginner, requires: [timeline-navigation]}
+  - {id: hard-cut, name: 硬切, level: beginner, requires: [razor-cut]}
+  - {id: position, name: Position, level: beginner, requires: [timeline-navigation]}
+  - {id: scale, name: Scale, level: beginner, requires: [timeline-navigation]}
+  - {id: match-cut, name: Match Cut, level: beginner, requires: [position, scale, hard-cut]}
+  - {id: keyframes, name: 关键帧, level: beginner, requires: [position, scale]}
+  - {id: push-transition, name: 推进转场, level: beginner, requires: [keyframes]}
+  - {id: bezier, name: Bezier 速度曲线, level: beginner-intermediate, requires: [keyframes]}
+  - {id: opacity, name: 不透明度, level: beginner, requires: [timeline-navigation]}
+  - {id: mask, name: 蒙版, level: beginner-intermediate, requires: [opacity]}
+  - {id: mask-transition, name: 蒙版转场, level: intermediate, requires: [mask, keyframes]}
+  - {id: track-management, name: 轨道管理, level: beginner, requires: [timeline-navigation]}
+  - {id: adjustment-layer, name: 调整图层, level: beginner, requires: [track-management]}
+  - {id: invert, name: 正负片闪变, level: beginner, requires: [adjustment-layer]}
+  - {id: rgb-split, name: RGB 通道错位, level: beginner-intermediate, requires: [adjustment-layer]}
+  - {id: blend-mode, name: 混合模式, level: beginner, requires: [opacity]}
+  - {id: hud-overlay, name: HUD 叠加, level: beginner-intermediate, requires: [blend-mode]}
+  - {id: waveform, name: 波形阅读, level: beginner, requires: [timeline-navigation]}
+  - {id: markers, name: 手工标记, level: beginner, requires: [timeline-navigation]}
+  - {id: beat-cutting, name: 手工听拍剪辑, level: beginner-intermediate, requires: [waveform, markers, razor-cut]}
+
+lessons:
+  - L01
+  - L02
+  - L03
+  - L04
+  - L05
+  - L06
+  - L07
+  - L08
+  - L09
+  - L10
+  - L11
+  - L12
+
+capstone:
+  lesson: L12
+  target_range:
+    start: 1.36
+    end: 4.72
+  deliverable: >-
+    一个原创 5 秒科技广告片段，使用同类节奏、形状连续和视觉重音，
+    但不要求像素级复制参考片。

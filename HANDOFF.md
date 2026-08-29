@@ -1,10 +1,10 @@
-# HANDOFF — 内部交接文档（v0.1.0）
+# HANDOFF — 内部交接文档（v0.2.0）
 
 目标读者：**在另一台电脑继续这份工作的人**（人或 AI 助手）。读完本文档 + `README.md` 后，应当能在新机器上独立复现整个拆解流程并继续更新仓库。
 
 ## 1. 这是什么
 
-`video-style-breakdown-teacher`：把任意视频前 30 秒的剪辑风格拆解成 Premiere 教学课。核心资产是三个 Python 脚本 + 教案模板 + 已沉淀的课程。
+`video-style-breakdown-teacher`：把任意视频前 30 秒的剪辑风格拆解成 Premiere 教案，并编排为有依赖关系、可实践、可验收的微课程。v0.2 是 Curriculum MVP，不连接 Premiere MCP。
 
 ## 2. 关键路径
 
@@ -20,7 +20,7 @@
 ## 3. 环境清单（本机已装，新机器照此装）
 
 - 2026-08-07现场读回：Python 3.13.14（`C:\Users\suzix\AppData\Local\Programs\Python\Python313\python.exe`），PyYAML 6.0.2；当前解释器未安装 Pillow/yt-dlp Python 包，但独立 `yt-dlp.exe` 可用
-- 当前终端的 PATH 中没有系统 `ffmpeg`；现有样例曾用临时 `imageio-ffmpeg` 运行。新机器应按 `README.md` 安装正式 FFmpeg 与 Pillow，并用`ffmpeg -version`、`python -m pip show pillow`读回确认
+- 2026-08-28 已通过 winget 安装 Gyan.FFmpeg 9.0.1；安装后新 shell 才会刷新 PATH，当前会话可把 `--ffmpeg-dir` 指向 WinGet 包内 `ffmpeg-9.0.1-full_build\bin`。同日已用真实源样片 0–3 秒 quick 模式读回 manifest、1 张概览、2 张事件表和波形。新机器仍应按 `README.md` 安装 FFmpeg/Pillow，并用 `ffmpeg -version`、`python -m pip show pillow`确认
 - git 2.54（本仓库分支约定见第 8 节）
 - 中文 Windows 注意：**跑任何 Python 脚本加 `PYTHONUTF8=1`**，否则 UTF-8 中文会按 GBK 读取报错
 
@@ -41,13 +41,15 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 
 更新技能后，同步把改动拷回本仓库（scripts/、SKILL.md、references/、agents/、examples/）。
 
-## 5. 完整工作流（5 步）
+## 5. 完整工作流（7 步）
 
 1. **定范围**：确认视频路径与分析区间（默认前 30 秒），列出用户关注瞬间（`--user-focus`）。
 2. **生成证据包**：`analyze_video.py --mode teacher` → `evidence/`（manifest + 概览 + 事件表 + 波形）。
 3. **读证据推理**：先读 manifest，再看概览/事件表；场景检测只是候选，闪帧不独立成镜头；节拍是候选不是乐谱。
 4. **收集教程**：`collect_tutorials.py`，B 站候选从网页搜索 JSON 喂入（分组 `{"queries": {topic: [...]}}`）；YouTube 用 yt-dlp。
 5. **写教案并校验**：按 `references/lesson-template.md` 写 `lesson.md`，`validate_lesson.py` 通过（exit 0）才算完成。
+6. **编排 Curriculum**：根据 `skill-taxonomy.md` 把复杂效果拆成 prerequisite skill graph，生成 `curriculum.yaml` 与 `units/*.yaml`。
+7. **校验课程**：运行 `validate_curriculum.py curriculum.yaml --strict`；依赖、练习、checkpoint、教程主题和 Capstone 全部通过才交付。
 
 产出放 `lessons/<视频名>/` 提交入库。
 
@@ -66,6 +68,20 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 - 三个脚本全部实测：analyze_video 在合成测试视频与本样片跑通（manifest schema 1.0）；collect_tutorials 三主题实时检索跑通；validate_lesson 对样例与本课均 PASS
 - 样例产出：`examples/sample-first-30s`（teacher）、`examples/verification-quick`（quick）
 - 正式课程：`lessons/pS_L7x9PaY1vXXSh/`（6 节逐转场教学，校验 PASS，教程含YouTube/B站推荐；当前分支已移除第三方源视频，仅保留课程与证据包）
+
+## 7.1 v0.2.0 Interactive Curriculum
+
+- 新增 `skill-taxonomy.md`、Curriculum/Unit schema 与 Coach 行为边界。
+- 示例课程保留 v0.1 `lesson.md`，新增 12 个微课程/综合课；复杂效果不再直接等于一课。
+- 新增 `validate_curriculum.py` 与单元测试，检查 skill/unit 依赖、练习交付物、三类 PASS checkpoint、教程主题和 Capstone。
+- validator 还会检查 skill 的引入 Unit 与 prerequisite 传递闭包、taxonomy 依赖漂移、未核实 BPM 打标命令，以及推荐教程的核实状态、HTTPS、真实快照日期、结构化时间段和 skill 相关性。
+- 当前明确不接 Premiere MCP、不读写 PR 工程；只读教练、Progress、Demo/Rescue 与视觉验收分别留给后续阶段。
+
+### 2026-08-29 PM 合并门禁
+
+- GitHub PR #2：`codex/interactive-curriculum-v0.2` → `main`；远端 PR 状态与最终合并结果以 https://github.com/Suzixuan/video-style-breakdown-teacher/pull/2 为准。
+- 合并前验证：28 项测试、两套 validator、Skill 结构、handoff pack、秘密/大文件扫描均通过；远端课程目录未包含 `source.mp4`。
+- 独立终审要求补齐本地状态防线；`.gitignore` 已加入 `.coach/`、`.env*`、课程 PRACTICE/DEMO 工程与 Premiere 缓存规则，避免后续阶段误提交。
 
 ### 2026-08-07 PM审稿
 

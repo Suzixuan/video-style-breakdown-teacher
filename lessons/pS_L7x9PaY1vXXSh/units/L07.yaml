@@ -1,0 +1,29 @@
+id: L07
+title: Adjustment Layer 与 Invert 闪变
+type: micro
+goal: 用调整图层制作一次可控的 1–2 帧正负片闪变。
+primary_skill: invert
+new_skills: [track-management, adjustment-layer, invert]
+skills: [track-management, adjustment-layer, invert]
+prerequisites: [L01]
+estimated_minutes: 15
+source_reference: {start: 6.80, end: 8.00}
+capability: PR-native
+assets: {required: [任意高对比人物镜头]}
+exercise:
+  description: 在切点上方放置 1–2 帧调整图层并应用 Invert。
+  deliverable: 一次短促、可定位、没有持续频闪的正负片闪变
+steps:
+  - {id: step-1, instruction: 创建调整图层并只保留 1–2 帧。, verify: {type: clip-duration}}
+  - {id: step-2, instruction: 把 Invert 只应用在调整图层，不破坏源 Clip。, verify: {type: effects}}
+checkpoints:
+  structural:
+    - {id: adjustment-above, pass: 调整图层位于目标镜头上方且只覆盖目标帧}
+  parameter:
+    - {id: flash-length, pass: Invert 持续 1–2 帧，没有意外延伸}
+  visual:
+    - {id: safe-accent, pass: 闪变是短促重音；检查时降低亮度并避免连续重复播放}
+tutorials:
+  topics: [Premiere adjustment layer basics, Premiere invert effect]
+challenge: 把闪变放在另一个硬切前一帧，比较切点冲击力。
+next: L08
