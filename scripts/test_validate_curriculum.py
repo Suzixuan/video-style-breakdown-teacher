@@ -55,6 +55,8 @@ class CurriculumValidatorTests(unittest.TestCase):
         references = root / "references"
         course.mkdir(parents=True)
         shutil.copy2(self.course / "curriculum.yaml", course)
+        shutil.copy2(self.course / "curriculum.md", course)
+        shutil.copytree(self.course / "course", course / "course")
         shutil.copytree(self.course / "units", course / "units")
         references.mkdir(parents=True)
         shutil.copy2(self.repo / "references" / "skill-taxonomy.md", references)
@@ -82,6 +84,59 @@ class CurriculumValidatorTests(unittest.TestCase):
         )
         self.assertEqual(errors, [])
         self.assertEqual(warnings, [])
+
+    def test_rejects_missing_human_readable_curriculum(self):
+        with tempfile.TemporaryDirectory() as temp:
+            curriculum_path = self.copy_course(temp)
+            (curriculum_path.parent / "curriculum.md").unlink()
+            errors, _, _ = validate_curriculum(curriculum_path, strict=True)
+            self.assertTrue(
+                any("human-readable curriculum.md is required" in error for error in errors),
+                errors,
+            )
+
+    def test_rejects_incomplete_human_lesson(self):
+        with tempfile.TemporaryDirectory() as temp:
+            curriculum_path = self.copy_course(temp)
+            human_path = curriculum_path.parent / "course" / "L01.md"
+            text = human_path.read_text(encoding="utf-8")
+            text = text.replace("## 你现在应该看到", "## 随便看看", 1)
+            human_path.write_text(text, encoding="utf-8")
+            errors, _, _ = validate_curriculum(curriculum_path, strict=True)
+            self.assertIn(
+                "course/L01.md missing learner section: ## 你现在应该看到", errors
+            )
+
+    def test_rejects_missing_executable_lesson_file(self):
+        with tempfile.TemporaryDirectory() as temp:
+            curriculum_path = self.copy_course(temp)
+            (curriculum_path.parent / "course" / "L06.md").unlink()
+            errors, _, _ = validate_curriculum(curriculum_path, strict=True)
+            self.assertTrue(
+                any("learner-facing lesson is required for L06" in error for error in errors),
+                errors,
+            )
+
+    def test_rejects_outline_disguised_as_lesson(self):
+        with tempfile.TemporaryDirectory() as temp:
+            curriculum_path = self.copy_course(temp)
+            lesson_path = curriculum_path.parent / "course" / "L03.md"
+            lesson_path.write_text(
+                "# L03｜圆形 Match Cut\n\n"
+                "## 你会做出什么\n摘要\n"
+                "## 跟我做\n1. 一\n2. 二\n3. 三\n4. 四\n5. 五\n"
+                "## 你现在应该看到\n摘要\n"
+                "## 做错了怎么修\n摘要\n"
+                "## 交作业\n摘要\n"
+                "## 继续学习\nhttps://example.com\n"
+                "## 能力边界\n../evidence/example.jpg\n",
+                encoding="utf-8",
+            )
+            errors, _, _ = validate_curriculum(curriculum_path, strict=True)
+            self.assertTrue(
+                any("too shallow for an executable lesson" in error for error in errors),
+                errors,
+            )
 
     def test_rejects_lesson_prerequisite_cycle(self):
         with tempfile.TemporaryDirectory() as temp:
