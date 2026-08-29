@@ -77,6 +77,12 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 - validator 还会检查 skill 的引入 Unit 与 prerequisite 传递闭包、taxonomy 依赖漂移、未核实 BPM 打标命令，以及推荐教程的核实状态、HTTPS、真实快照日期、结构化时间段和 skill 相关性。
 - 当前明确不接 Premiere MCP、不读写 PR 工程；只读教练、Progress、Demo/Rescue 与视觉验收分别留给后续阶段。
 
+### 2026-08-29 PM 合并门禁
+
+- GitHub PR #2：`codex/interactive-curriculum-v0.2` → `main`；远端 PR 状态与最终合并结果以 https://github.com/Suzixuan/video-style-breakdown-teacher/pull/2 为准。
+- 合并前验证：28 项测试、两套 validator、Skill 结构、handoff pack、秘密/大文件扫描均通过；远端课程目录未包含 `source.mp4`。
+- 独立终审要求补齐本地状态防线；`.gitignore` 已加入 `.coach/`、`.env*`、课程 PRACTICE/DEMO 工程与 Premiere 缓存规则，避免后续阶段误提交。
+
 ### 2026-08-07 PM审稿
 
 - 视觉审查：逐张核对6张事件表，课程的对象、时序和能力边界与画面基本一致。
