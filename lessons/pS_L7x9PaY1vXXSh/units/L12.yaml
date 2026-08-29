@@ -1,0 +1,29 @@
+id: L12
+title: Capstone：原创 5 秒科技广告
+type: capstone
+goal: 把已通过的技能迁移到自己的素材，完成一个原创 5 秒科技广告片段。
+primary_skill: beat-cutting
+new_skills: []
+skills: [razor-cut, match-cut, push-transition, bezier, mask-transition, invert, rgb-split, hud-overlay, beat-cutting]
+prerequisites: [L09, L11]
+estimated_minutes: 50
+source_reference: {start: 0.00, end: 30.00}
+capability: PR-approximation
+assets: {required: [至少三个自有或合法授权镜头, 可选 HUD 或预渲染 3D 素材]}
+exercise:
+  description: 选择 5 秒音乐或音效，设计并完成具有形状连续、运动重音和克制故障的原创片段。
+  deliverable: 一个 5 秒成片、时间线截图和三条自评说明
+steps:
+  - {id: step-1, instruction: 先写出 5 秒镜头顺序与每个切点的主要原则。, verify: {type: plan}}
+  - {id: step-2, instruction: 先完成基础剪辑，再按需要加入不超过两类装饰效果。, verify: {type: timeline}}
+checkpoints:
+  structural:
+    - {id: five-second-piece, pass: 成片约 5 秒、无空帧，至少有三个镜头和两个有意图的切点}
+  parameter:
+    - {id: controlled-effects, pass: 至少使用三项已学技能，装饰效果没有掩盖基础剪辑}
+  visual:
+    - {id: original-transfer, pass: 能说明形状、运动与声音如何服务连续性；不是逐像素照抄参考片}
+tutorials:
+  topics: [Premiere product commercial editing, Premiere match cut, Premiere beat editing]
+challenge: 在不增加效果种类的前提下扩展为 10 秒版本。
+next: null

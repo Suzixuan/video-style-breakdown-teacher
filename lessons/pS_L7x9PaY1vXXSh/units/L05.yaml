@@ -1,0 +1,29 @@
+id: L05
+title: Bezier 加速度
+type: micro
+goal: 把 L04 的线性推进改成有加速或减速重音的运动。
+primary_skill: bezier
+new_skills: [bezier]
+skills: [bezier, keyframes, push-transition]
+prerequisites: [L04]
+estimated_minutes: 15
+source_reference: {start: 3.60, end: 4.80}
+capability: PR-native
+assets: {required: [L04 的推进练习]}
+exercise:
+  description: 保留相同起止 Scale，只改变关键帧插值和速度手柄。
+  deliverable: 一个起止构图不变、速度曲线更有重音的推进
+steps:
+  - {id: step-1, instruction: 复制 L04 版本作为线性对照。, verify: {type: sequence}}
+  - {id: step-2, instruction: 对关键帧应用 Bezier 或 Ease，并小幅调整速度手柄。, verify: {type: keyframes}}
+checkpoints:
+  structural:
+    - {id: comparison-copy, pass: 线性版和 Bezier 版都被保留用于比较}
+  parameter:
+    - {id: interpolation, pass: 关键帧不再全部使用 Linear，起止值与 L04 一致}
+  visual:
+    - {id: acceleration-readable, pass: 播放时可感到速度重音，且没有突然停顿或抽动}
+tutorials:
+  topics: [Premiere Bezier keyframes, Premiere ease in ease out]
+challenge: 做一个“快起慢停”和一个“慢起快停”版本。
+next: L06

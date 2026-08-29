@@ -1,0 +1,29 @@
+id: L01
+title: 时间线与帧级短切
+type: micro
+goal: 在 25fps 序列中准确制作 2 / 4 / 2 帧插入剪辑。
+primary_skill: razor-cut
+new_skills: [timeline-navigation, razor-cut, hard-cut]
+skills: [timeline-navigation, razor-cut, hard-cut]
+prerequisites: []
+estimated_minutes: 20
+source_reference: {start: 0.80, end: 2.00}
+capability: PR-native
+assets: {required: [任意主镜头, 任意两个插入镜头]}
+exercise:
+  description: 在主镜头中插入 2 帧、4 帧、2 帧的三个短片段。
+  deliverable: 一段无空帧的 2 / 4 / 2 帧插入组接
+steps:
+  - {id: step-1, instruction: 建立 25fps Practice Sequence 并把主镜头放到 V1。, verify: {type: timeline}}
+  - {id: step-2, instruction: 用 Razor 切出 2 / 4 / 2 帧位置并放入三个插入片段。, verify: {type: clip-duration}}
+checkpoints:
+  structural:
+    - {id: continuous-v1, pass: 所有片段在 V1 相邻且没有空帧}
+  parameter:
+    - {id: insert-duration, pass: 三个插入片段依次为 2 帧、4 帧、2 帧}
+  visual:
+    - {id: readable-flash, pass: 正常播放时三次插入可感知但不会变成长镜头}
+tutorials:
+  topics: [Premiere frame by frame editing, Premiere razor tool basics]
+challenge: 把顺序改成 4 / 2 / 4 帧，比较节奏差异。
+next: L02

@@ -1,0 +1,29 @@
+id: L09
+title: HUD 合成与故障组合
+type: micro
+goal: 把 HUD 叠层、混合模式和 RGB Split 组合成可读的人物扫描镜头。
+primary_skill: hud-overlay
+new_skills: [blend-mode, hud-overlay]
+skills: [opacity, blend-mode, hud-overlay, rgb-split, track-management]
+prerequisites: [L06, L08]
+estimated_minutes: 25
+source_reference: {start: 6.80, end: 8.00}
+capability: PR-approximation
+assets: {required: [人物镜头, 合法取得的透明 HUD 素材]}
+exercise:
+  description: 将 HUD 放在人物上方并选择合适混合模式，再复用短 RGB 故障。
+  deliverable: 主体、HUD 和故障层次清楚的扫描镜头
+steps:
+  - {id: step-1, instruction: 把 HUD 放到人物上方并先调 Opacity 或 Blend Mode。, verify: {type: effects}}
+  - {id: step-2, instruction: 只在视觉重音处加入 L08 的短 RGB 故障。, verify: {type: timeline}}
+checkpoints:
+  structural:
+    - {id: layer-order, pass: 人物、HUD、故障层轨道顺序清楚且不覆盖错误范围}
+  parameter:
+    - {id: blend-readable, pass: HUD 使用合适的 Opacity 或 Blend Mode，未完全遮挡人物}
+  visual:
+    - {id: hierarchy, pass: 第一眼仍能读到人物，HUD 是信息层，RGB Split 只是短促重音}
+tutorials:
+  topics: [Premiere blend modes, Premiere HUD overlay, Premiere RGB split]
+challenge: 用不同 HUD 素材保持相同视觉层级，而不是复制原片界面。
+next: L10

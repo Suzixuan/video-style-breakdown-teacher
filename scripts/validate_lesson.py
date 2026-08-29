@@ -41,11 +41,20 @@ def bpm_instruction_violations(text):
     """Reject turning an unverified numeric BPM into a marker-editing command."""
     violations = []
     lines = text.splitlines()
-    danger = re.compile(
-        r"(?:按|用|以)[^。；\n]{0,30}(?:打\s*`?M`?|打标记|铺[^。；\n]{0,10}标记|设置[^。；\n]{0,10}标记)"
-        r"|(?:打\s*`?M`?|打标记|铺[^。；\n]{0,10}标记)[^。；\n]{0,12}(?:按|依据|根据)(?:它|该值|这个值)?"
+    marker_action = (
+        r"(?:打\s*`?M`?|(?:打|铺|设置|创建|添加|插入)[^。；\n]{0,8}标记|"
+        r"(?:set|create|add|insert)\s+(?:an?\s+|the\s+)?markers?)"
     )
-    direct_prohibition = re.compile(r"(?:不要|不应|不能|禁止|避免|切勿|不可)[^。；\n]{0,12}$")
+    danger = re.compile(
+        rf"(?:按|用|以)[^。；\n]{{0,40}}{marker_action}"
+        rf"|{marker_action}[^。；\n]{{0,40}}(?:按|依据|根据|at)(?:它|该值|这个值)?"
+        rf"|{marker_action}[^。；\n]{{0,40}}(?:每拍|every\s+beat)",
+        re.IGNORECASE,
+    )
+    direct_prohibition = re.compile(
+        r"(?:不要|不应|不能|禁止|避免|切勿|不可|do\s+not|don't|never)[^。；\n]{0,20}$",
+        re.IGNORECASE,
+    )
     for i, line in enumerate(lines):
         clauses = [part.strip() for part in re.split(r"[。；]", line) if part.strip()]
         for clause_index, clause in enumerate(clauses):

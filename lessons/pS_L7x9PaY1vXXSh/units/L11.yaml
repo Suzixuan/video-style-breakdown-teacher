@@ -1,0 +1,29 @@
+id: L11
+title: 综合复刻 00:01.36–00:04.72
+type: synthesis
+goal: 把短切、Match Cut、Push、Bezier、Mask 和手工节奏组合成一个连续片段。
+primary_skill: match-cut
+new_skills: []
+skills: [razor-cut, match-cut, push-transition, bezier, mask-transition, beat-cutting]
+prerequisites: [L03, L05, L06, L10]
+estimated_minutes: 45
+source_reference: {start: 1.36, end: 4.72}
+capability: 3D-source-required
+assets: {required: [课程练习素材, 已渲染的机械虹膜或替代圆形素材]}
+exercise:
+  description: 复刻参考片 00:01.36–00:04.72 的剪辑结构和视觉连续原则。
+  deliverable: 一个约 3.36 秒的综合复刻片段及逐切点自查记录
+steps:
+  - {id: step-1, instruction: 先只搭建镜头顺序、长度和手工节奏标记。, verify: {type: timeline}}
+  - {id: step-2, instruction: 依次加入 Match Cut、Push/Bezier 与圆形蒙版，每次只验证一个切点。, verify: {type: checkpoints}}
+checkpoints:
+  structural:
+    - {id: complete-range, pass: 目标片段无空帧，镜头顺序与目标结构一致}
+  parameter:
+    - {id: required-techniques, pass: 至少包含帧级短切、形状对齐、关键帧推进和蒙版；参数均标为复刻起点}
+  visual:
+    - {id: language-match, pass: 形状、方向和节奏具有参考片的连续感；不要求像素级或 3D 内容相同}
+tutorials:
+  topics: [Premiere match cut, Premiere keyframe push, Premiere mask transition]
+challenge: 删除所有故障效果，验证基础切点本身是否仍然成立。
+next: L12

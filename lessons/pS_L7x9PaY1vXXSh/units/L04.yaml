@@ -1,0 +1,29 @@
+id: L04
+title: 8 帧 Keyframe Push
+type: micro
+goal: 用 Scale 关键帧制作一次 8 帧快速推进。
+primary_skill: keyframes
+new_skills: [keyframes, push-transition]
+skills: [keyframes, push-transition, position, scale]
+prerequisites: [L02]
+estimated_minutes: 20
+source_reference: {start: 3.60, end: 4.80}
+capability: PR-native
+assets: {required: [一个主体居中的镜头]}
+exercise:
+  description: 在 8 帧内把 Scale 从 100 调到 130，并按需修正 Position。
+  deliverable: 一个主体保持居中的 8 帧推进镜头
+steps:
+  - {id: step-1, instruction: 在起点和第 8 帧为 Scale 建立两个关键帧。, verify: {type: keyframes}}
+  - {id: step-2, instruction: 将 Scale 从 100 调到约 130，并修正主体中心。, verify: {type: clip-properties}}
+checkpoints:
+  structural:
+    - {id: two-keyframes, pass: Scale 轨道存在两个间隔 8 帧的关键帧}
+  parameter:
+    - {id: scale-range, pass: Scale 起点约 100、终点约 130，无反向跳变}
+  visual:
+    - {id: centered-push, pass: 推进方向明确且主体没有明显漂离中心}
+tutorials:
+  topics: [Premiere keyframe basics, Premiere scale push transition]
+challenge: 分别尝试 6 帧和 12 帧，描述速度感差异。
+next: L05
