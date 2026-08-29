@@ -19,6 +19,14 @@ CAPABILITIES = {
     "PR-native", "PR-approximation", "AE-preferred", "3D-source-required"
 }
 CHECKPOINT_TYPES = ("structural", "parameter", "visual")
+HUMAN_SECTION_LABELS = (
+    "**目标**",
+    "**本课作品**",
+    "**结构 PASS**",
+    "**参数 PASS**",
+    "**视觉 PASS**",
+    "**能力边界**",
+)
 
 
 def load_yaml(path, errors):
@@ -125,6 +133,51 @@ def valid_iso_date(value):
     except ValueError:
         return False
     return True
+
+
+def validate_human_curriculum(path, lesson_ids, units, errors):
+    """Require a complete learner-facing curriculum.md beside curriculum.yaml."""
+    human_path = path.parent / "curriculum.md"
+    try:
+        text = human_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        errors.append(f"human-readable curriculum.md is required: {exc}")
+        return
+
+    heading_pattern = re.compile(
+        r"^##\s+(L\d{2,})\s*[｜|:：-]\s*(.+?)\s*$", re.MULTILINE
+    )
+    matches = list(heading_pattern.finditer(text))
+    sections = {}
+    for index, match in enumerate(matches):
+        lesson_id, title = match.group(1), match.group(2).strip()
+        if lesson_id in sections:
+            errors.append(f"curriculum.md has duplicate lesson heading: {lesson_id}")
+            continue
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        sections[lesson_id] = (title, text[match.end():end])
+
+    for lesson_id in lesson_ids:
+        if not isinstance(lesson_id, str) or lesson_id not in units:
+            continue
+        if lesson_id not in sections:
+            errors.append(f"curriculum.md missing lesson heading: {lesson_id}")
+            continue
+        human_title, body = sections[lesson_id]
+        unit_title = units[lesson_id].get("title")
+        if nonempty(unit_title) and human_title != unit_title:
+            errors.append(
+                f"curriculum.md {lesson_id} title differs from unit: "
+                f"{human_title!r} != {unit_title!r}"
+            )
+        for label in HUMAN_SECTION_LABELS:
+            if label not in body:
+                errors.append(f"curriculum.md {lesson_id} missing learner section: {label}")
+
+    expected_ids = {lesson_id for lesson_id in lesson_ids if isinstance(lesson_id, str)}
+    unexpected = sorted(set(sections) - expected_ids)
+    if unexpected:
+        errors.append("curriculum.md has unreferenced lesson headings: " + ", ".join(unexpected))
 
 
 def validate_curriculum(path, strict=False):
@@ -425,6 +478,8 @@ def validate_curriculum(path, strict=False):
                         f"{lesson_id}: dependency {dependency} for {skill_id} is absent from prerequisite closure"
                     )
 
+    validate_human_curriculum(path, lesson_ids, units, errors)
+
     if units_dir.exists():
         expected_files = {f"{lesson_id}.yaml" for lesson_id in lesson_ids if isinstance(lesson_id, str)}
         extra_files = sorted(p.name for p in units_dir.glob("*.yaml") if p.name not in expected_files)
@@ -475,7 +530,7 @@ def main():
     if errors:
         print("\nFAIL — fix reported issues and re-run")
         return 1
-    print("  [OK] schema, skill graph, lesson graph, exercises, checkpoints, tutorials, capstone")
+    print("  [OK] human curriculum, schema, skill graph, lesson graph, exercises, checkpoints, tutorials, capstone")
     print("\nPASS")
     return 0
 

@@ -12,6 +12,7 @@
 - 证据、推断和 PR 复刻起点必须分开；不得把猜测写成原作者精确插件、预设或参数。
 - 必须标明 `PR-native`、`PR-approximation`、`AE-preferred` 或 `3D-source-required`。
 - Curriculum 的 skill ID 和依赖以 `references/skill-taxonomy.md` 为权威来源。
+- Curriculum 必须同时交付学习者可直接阅读的 `curriculum.md` 和机器校验用的 `curriculum.yaml`、`units/*.yaml`；默认入口不得指向 YAML。
 - 普通 Unit 只设一个主要目标、最多三个新 skill，并包含实际作品、结构/参数/视觉三类 PASS checkpoint 和 tutorial topic。
 - 不得把未核实 BPM 转成自动标记命令；教程片段时间未人工核实时不得编造 timestamp。
 

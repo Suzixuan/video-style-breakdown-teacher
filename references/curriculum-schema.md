@@ -1,6 +1,19 @@
 # Curriculum Schema v2.0
 
-`curriculum.yaml` 是机器可读的课程地图；`lesson.md` 仍是兼容 v0.1 的人读拆片报告。
+Curriculum 模式同时交付三层内容：
+
+- `lesson.md`：兼容 v0.1 的人读拆片报告，解释参考片证据与转场推理；
+- `curriculum.md`：学习者直接阅读和练习的完整课程；
+- `curriculum.yaml` + `units/*.yaml`：机器可读的课程地图和逐课数据。
+
+不允许只交付 YAML；README 和最终回复应优先链接 `curriculum.md`。
+
+## curriculum.md 必填结构
+
+- 一个课程标题和使用说明；
+- 覆盖 `curriculum.yaml.lessons` 中的全部课次，标题格式为 `## Lxx｜课程标题`；
+- 每课至少包含 `目标`、`本课作品`、`结构 PASS`、`参数 PASS`、`视觉 PASS`、`能力边界`；
+- 人读标题必须与对应 `units/Lxx.yaml` 的 `title` 一致。
 
 ## 必填字段
 
@@ -34,6 +47,7 @@ capstone:
 - `lessons` 按教学顺序排列；Unit 的 prerequisite 只能指向它前面的 Unit。
 - `capstone.lesson` 必须是最后一课，且目标时间段落在分析范围内。
 - 所有课程 skill 必须出现在 `taxonomy` 指向的表中。
+- 同目录必须存在 `curriculum.md`，并完整覆盖机器课程地图中的所有课次和三类 PASS。
 
 运行：
 

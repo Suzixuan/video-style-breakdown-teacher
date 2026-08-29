@@ -55,6 +55,7 @@ class CurriculumValidatorTests(unittest.TestCase):
         references = root / "references"
         course.mkdir(parents=True)
         shutil.copy2(self.course / "curriculum.yaml", course)
+        shutil.copy2(self.course / "curriculum.md", course)
         shutil.copytree(self.course / "units", course / "units")
         references.mkdir(parents=True)
         shutil.copy2(self.repo / "references" / "skill-taxonomy.md", references)
@@ -82,6 +83,28 @@ class CurriculumValidatorTests(unittest.TestCase):
         )
         self.assertEqual(errors, [])
         self.assertEqual(warnings, [])
+
+    def test_rejects_missing_human_readable_curriculum(self):
+        with tempfile.TemporaryDirectory() as temp:
+            curriculum_path = self.copy_course(temp)
+            (curriculum_path.parent / "curriculum.md").unlink()
+            errors, _, _ = validate_curriculum(curriculum_path, strict=True)
+            self.assertTrue(
+                any("human-readable curriculum.md is required" in error for error in errors),
+                errors,
+            )
+
+    def test_rejects_incomplete_human_lesson(self):
+        with tempfile.TemporaryDirectory() as temp:
+            curriculum_path = self.copy_course(temp)
+            human_path = curriculum_path.parent / "curriculum.md"
+            text = human_path.read_text(encoding="utf-8")
+            text = text.replace("**视觉 PASS**", "**视觉检查**", 1)
+            human_path.write_text(text, encoding="utf-8")
+            errors, _, _ = validate_curriculum(curriculum_path, strict=True)
+            self.assertIn(
+                "curriculum.md L01 missing learner section: **视觉 PASS**", errors
+            )
 
     def test_rejects_lesson_prerequisite_cycle(self):
         with tempfile.TemporaryDirectory() as temp:
