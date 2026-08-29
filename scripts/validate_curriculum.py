@@ -19,13 +19,14 @@ CAPABILITIES = {
     "PR-native", "PR-approximation", "AE-preferred", "3D-source-required"
 }
 CHECKPOINT_TYPES = ("structural", "parameter", "visual")
-HUMAN_SECTION_LABELS = (
-    "**目标**",
-    "**本课作品**",
-    "**结构 PASS**",
-    "**参数 PASS**",
-    "**视觉 PASS**",
-    "**能力边界**",
+COURSE_SECTION_HEADINGS = (
+    "## 你会做出什么",
+    "## 跟我做",
+    "## 你现在应该看到",
+    "## 做错了怎么修",
+    "## 交作业",
+    "## 继续学习",
+    "## 能力边界",
 )
 
 
@@ -136,7 +137,7 @@ def valid_iso_date(value):
 
 
 def validate_human_curriculum(path, lesson_ids, units, errors):
-    """Require a complete learner-facing curriculum.md beside curriculum.yaml."""
+    """Require a course index plus executable learner-facing lesson files."""
     human_path = path.parent / "curriculum.md"
     try:
         text = human_path.read_text(encoding="utf-8")
@@ -144,40 +145,46 @@ def validate_human_curriculum(path, lesson_ids, units, errors):
         errors.append(f"human-readable curriculum.md is required: {exc}")
         return
 
-    heading_pattern = re.compile(
-        r"^##\s+(L\d{2,})\s*[｜|:：-]\s*(.+?)\s*$", re.MULTILINE
-    )
-    matches = list(heading_pattern.finditer(text))
-    sections = {}
-    for index, match in enumerate(matches):
-        lesson_id, title = match.group(1), match.group(2).strip()
-        if lesson_id in sections:
-            errors.append(f"curriculum.md has duplicate lesson heading: {lesson_id}")
-            continue
-        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
-        sections[lesson_id] = (title, text[match.end():end])
+    course_dir = path.parent / "course"
+    course_index = course_dir / "README.md"
+    if not course_index.exists():
+        errors.append(f"learner-facing course/README.md is required: {course_index}")
 
     for lesson_id in lesson_ids:
         if not isinstance(lesson_id, str) or lesson_id not in units:
             continue
-        if lesson_id not in sections:
-            errors.append(f"curriculum.md missing lesson heading: {lesson_id}")
+        link = f"course/{lesson_id}.md"
+        if link not in text:
+            errors.append(f"curriculum.md missing course link: {link}")
+        lesson_path = course_dir / f"{lesson_id}.md"
+        try:
+            lesson_text = lesson_path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as exc:
+            errors.append(f"learner-facing lesson is required for {lesson_id}: {exc}")
             continue
-        human_title, body = sections[lesson_id]
         unit_title = units[lesson_id].get("title")
-        if nonempty(unit_title) and human_title != unit_title:
+        expected_heading = f"# {lesson_id}｜{unit_title}"
+        if nonempty(unit_title) and expected_heading not in lesson_text.splitlines()[:3]:
             errors.append(
-                f"curriculum.md {lesson_id} title differs from unit: "
-                f"{human_title!r} != {unit_title!r}"
+                f"course/{lesson_id}.md title must match unit: {expected_heading}"
             )
-        for label in HUMAN_SECTION_LABELS:
-            if label not in body:
-                errors.append(f"curriculum.md {lesson_id} missing learner section: {label}")
-
-    expected_ids = {lesson_id for lesson_id in lesson_ids if isinstance(lesson_id, str)}
-    unexpected = sorted(set(sections) - expected_ids)
-    if unexpected:
-        errors.append("curriculum.md has unreferenced lesson headings: " + ", ".join(unexpected))
+        for heading in COURSE_SECTION_HEADINGS:
+            if heading not in lesson_text:
+                errors.append(f"course/{lesson_id}.md missing learner section: {heading}")
+        if len(lesson_text) < 1000:
+            errors.append(
+                f"course/{lesson_id}.md is too shallow for an executable lesson: "
+                f"{len(lesson_text)} characters"
+            )
+        step_count = len(re.findall(r"^\d+\.\s+", lesson_text, re.MULTILINE))
+        if step_count < 5:
+            errors.append(
+                f"course/{lesson_id}.md needs at least 5 numbered actions; found {step_count}"
+            )
+        if "https://" not in lesson_text:
+            errors.append(f"course/{lesson_id}.md needs at least one direct tutorial/source link")
+        if lesson_id != "L12" and "../evidence/" not in lesson_text:
+            errors.append(f"course/{lesson_id}.md must cite reference-video evidence")
 
 
 def validate_curriculum(path, strict=False):

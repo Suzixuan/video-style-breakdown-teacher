@@ -1,6 +1,6 @@
 ---
 name: video-style-breakdown-teacher
-description: "视频风格拆解与 Premiere 微课程编排（Video Style Breakdown Teacher）。Use when the user asks to analyze a reference video's editing style, identify effects or transitions, learn Premiere from that reference, or turn the evidence into a prerequisite-aware curriculum with practical exercises and PASS checkpoints. Produces an evidence-backed lesson plus a human-readable curriculum.md, curriculum.yaml, and units/*.yaml when Curriculum mode is requested; distinguishes PR-native approximations from effects that require After Effects, 3D, plug-ins, or source animation. Triggers include 视频拆解、剪辑风格分析、转场拆解、Premiere 教学、PR 私人教练、课程路线、break down this video's editing, teach this video's style."
+description: "视频风格拆解与 Premiere 微课程编排（Video Style Breakdown Teacher）。Use when the user asks to analyze a reference video's editing style, identify effects or transitions, learn Premiere from that reference, or turn the evidence into a prerequisite-aware curriculum with practical exercises and PASS checkpoints. Produces an evidence-backed lesson, a learner-facing course/ with executable Markdown lessons, plus curriculum.yaml and units/*.yaml when Curriculum mode is requested; distinguishes PR-native approximations from effects that require After Effects, 3D, plug-ins, or source animation. Triggers include 视频拆解、剪辑风格分析、转场拆解、Premiere 教学、PR 私人教练、课程路线、break down this video's editing, teach this video's style."
 ---
 
 # Video Style Breakdown Teacher
@@ -23,7 +23,7 @@ v0.1 的 `lesson.md` 工作流继续可用。v0.2 不连接 Premiere MCP，也�
 ## 选择输出模式
 
 - **Breakdown（兼容 v0.1）**：用户只要拆片报告时，生成 `lesson.md` 并运行 `validate_lesson.py`。
-- **Curriculum（v0.2）**：用户要学习路线、微课程或“私人教练”时，在 Breakdown 证据基础上额外生成学习者直接阅读的 `curriculum.md`，以及机器校验用的 `curriculum.yaml` 与 `units/*.yaml`，并运行两种 validator。不得让用户通过阅读 YAML 才能看到完整课程。
+- **Curriculum（v0.2）**：用户要学习路线、微课程或“私人教练”时，在 Breakdown 证据基础上生成 `curriculum.md` 路线、`course/README.md` 与逐课 `course/Lxx.md`，以及机器校验用的 `curriculum.yaml` 与 `units/*.yaml`，并运行两种 validator。不得让用户通过阅读 YAML 或摘要才能猜出操作。
 
 Curriculum 模式开始前读取：
 
@@ -107,7 +107,7 @@ python scripts/validate_lesson.py 输出目录/lesson.md \
 analysis_manifest.json + lesson.md
 → Codex 区分最终效果与基础能力
 → 按 taxonomy 建立 skill graph
-→ curriculum.md（完整人读课程）
+→ curriculum.md（路线）+ course/Lxx.md（逐步实操课）
 → curriculum.yaml（机器课程地图）
 → units/Lxx.yaml
 → validate_curriculum.py
@@ -118,8 +118,9 @@ analysis_manifest.json + lesson.md
 - 普通微课程 10–25 分钟，综合/Capstone 30–60 分钟；
 - 一课一个 `primary_skill`，最多 3 个 `new_skills`；
 - 每课有实际 `exercise.deliverable`、三类 checkpoint 和至少一个 tutorial topic；
-- `curriculum.md` 必须覆盖全部课次，并逐课写清目标、本课作品、结构/参数/视觉 PASS 与能力边界；
-- README 或最终交付默认链接 `curriculum.md`，不能把 YAML 当作学习者入口；
+- `curriculum.md` 是课程路线；`course/README.md` 与 `course/Lxx.md` 才是学习者直接跟练的课件；
+- 每个 `course/Lxx.md` 必须有参考证据、界面或控件解释、至少五步可执行操作、预期画面、错误修复、交作业、教程和能力边界；
+- README 或最终交付默认链接 `course/README.md`，不能把 YAML 或课程摘要当作学习者入口；
 - 教程按本课 skill 检索，每课最多 1–3 个，相关片段未核实就不编 timestamp；
 - Capstone 复刻剪辑语言和原则，不要求像素级复制；
 - 3D/预渲染源动画只能作为合法取得的素材输入，不能写成 PR 自己生成。

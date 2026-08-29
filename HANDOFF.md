@@ -48,7 +48,7 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 3. **读证据推理**：先读 manifest，再看概览/事件表；场景检测只是候选，闪帧不独立成镜头；节拍是候选不是乐谱。
 4. **收集教程**：`collect_tutorials.py`，B 站候选从网页搜索 JSON 喂入（分组 `{"queries": {topic: [...]}}`）；YouTube 用 yt-dlp。
 5. **写教案并校验**：按 `references/lesson-template.md` 写 `lesson.md`，`validate_lesson.py` 通过（exit 0）才算完成。
-6. **编排 Curriculum**：根据 `skill-taxonomy.md` 把复杂效果拆成 prerequisite skill graph，生成学习者直接阅读的 `curriculum.md`，以及机器校验用的 `curriculum.yaml` 与 `units/*.yaml`。
+6. **编排 Curriculum**：根据 `skill-taxonomy.md` 把复杂效果拆成 prerequisite skill graph，生成路线 `curriculum.md`、逐步课件 `course/Lxx.md`，以及机器校验用的 `curriculum.yaml` 与 `units/*.yaml`。
 7. **校验课程**：运行 `validate_curriculum.py curriculum.yaml --strict`；依赖、练习、checkpoint、教程主题和 Capstone 全部通过才交付。
 
 产出放 `lessons/<视频名>/` 提交入库。
@@ -73,7 +73,8 @@ $env:PYTHONUTF8=1; python "C:\Users\suzix\.codex\skills\.system\skill-creator\sc
 
 - 新增 `skill-taxonomy.md`、Curriculum/Unit schema 与 Coach 行为边界。
 - 示例课程保留 v0.1 `lesson.md`，新增 12 个微课程/综合课；复杂效果不再直接等于一课。
-- 补充 `curriculum.md` 作为完整人读课程；README 默认入口指向 Markdown，validator 缺少任一课或三类 PASS 时失败，避免把 YAML 当成用户课程。
+- 首次补充的 `curriculum.md` 仅解决 YAML 不可读问题，但后续用户验收判定仍过于提纲化；该版本不再作为正式教学入口。
+- 用户复核后判定首版仍是提纲式内容；课程现改为 `course/README.md` + 12 个独立实操课件，逐课提供界面路径、操作步骤、预期结果、故障修复和交作业。当前任务未暴露 Premiere MCP，禁止声称能读取或验收 PR 工程。
 - 新增 `validate_curriculum.py` 与单元测试，检查 skill/unit 依赖、练习交付物、三类 PASS checkpoint、教程主题和 Capstone。
 - validator 还会检查 skill 的引入 Unit 与 prerequisite 传递闭包、taxonomy 依赖漂移、未核实 BPM 打标命令，以及推荐教程的核实状态、HTTPS、真实快照日期、结构化时间段和 skill 相关性。
 - 当前明确不接 Premiere MCP、不读写 PR 工程；只读教练、Progress、Demo/Rescue 与视觉验收分别留给后续阶段。

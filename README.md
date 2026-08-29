@@ -10,7 +10,7 @@
 - **三种分析模式**：`quick`（约10k–25k tokens）、`teacher`（默认，约30k–70k tokens）、`forensic`（逐源帧，>80k tokens）。
 - **教程检索**：自动收集 YouTube/Bilibili 教程并按相关度＋播放量排名；B 站遇 HTTP 412 时如实标注 `unverified`，绝不编造播放量。
 - **质量校验**：`validate_lesson.py` 检查教案结构完整性（13 项子节闭环）与负面守卫（不声称还原原作者精确预设、不把未核实BPM直接变成打标命令）。
-- **课程编排**：`curriculum.md` 是学习者直接阅读的完整课程，`curriculum.yaml` 与 `units/*.yaml` 负责 skill graph 和机器校验。
+- **课程编排**：`curriculum.md` 是路线入口，`course/Lxx.md` 是逐步实操课件，`curriculum.yaml` 与 `units/*.yaml` 负责 skill graph 和机器校验。
 - **课程校验**：`validate_curriculum.py` 检查人读课程完整性、依赖环、悬空引用、练习交付物、三类 PASS checkpoint、教程主题与 Capstone。
 - **诚实边界**：明确区分 PR-native / PR-approximation / AE-preferred / 3D-source-required，不把 PR 描述成"一键 3D 特效"。
 
@@ -36,7 +36,7 @@ video-style-breakdown-teacher/
 │   └── coach-behavior.md     # Coach 行为与版本边界
 ├── examples/                 # 样例产出（teacher 模式 + quick 模式）
 └── lessons/                  # 已拆解的课程（长期累积）
-    └── pS_L7x9PaY1vXXSh/     # lesson.md + curriculum.md + 机器课程文件
+    └── pS_L7x9PaY1vXXSh/     # 证据拆解 + course/12课实操 + 机器课程文件
 ```
 
 ## 快速开始
@@ -74,7 +74,7 @@ python scripts/collect_tutorials.py --out 输出目录 \
 python scripts/validate_lesson.py 输出目录/lesson.md \
   --manifest 输出目录/evidence/analysis_manifest.json
 
-# Curriculum 模式先写 curriculum.md、curriculum.yaml 和 units/*.yaml，再运行
+# Curriculum 模式先写课程路线、course/Lxx.md、机器地图与 Units，再运行
 python scripts/validate_curriculum.py 输出目录/curriculum.yaml --strict
 ```
 
@@ -84,7 +84,7 @@ python scripts/validate_curriculum.py 输出目录/curriculum.yaml --strict
 
 | 课程 | 视频 | 内容 |
 |---|---|---|
-| [pS_L7x9PaY1vXXSh](lessons/pS_L7x9PaY1vXXSh/lesson.md) | 黑白金科幻产品广告（1080×1920, 25fps, 前30秒）；源视频需由学习者在本地合法取得，不随公开仓库分发 | [直接阅读 12 课学习路线](lessons/pS_L7x9PaY1vXXSh/curriculum.md)：帧级短切 → Position/Scale → Match Cut → Push/Bezier → Mask → Invert/RGB/HUD → Beat Cutting → 综合复刻与 Capstone；[机器课程地图](lessons/pS_L7x9PaY1vXXSh/curriculum.yaml)供校验使用 |
+| [pS_L7x9PaY1vXXSh](lessons/pS_L7x9PaY1vXXSh/lesson.md) | 黑白金科幻产品广告（1080×1920, 25fps, 前30秒）；源视频需由学习者在本地合法取得，不随公开仓库分发 | [直接上 12 课 Premiere 实操课](lessons/pS_L7x9PaY1vXXSh/course/README.md)：每课包含界面路径、逐步操作、应见结果、故障修复和交作业；[课程路线](lessons/pS_L7x9PaY1vXXSh/curriculum.md)；[机器地图](lessons/pS_L7x9PaY1vXXSh/curriculum.yaml) |
 
 > 证据拼图包含低分辨率参考帧，仅用于评论、教学与课程复核。源视频不随公开仓库分发；使用者应自行确认其素材取得和使用权限。
 
@@ -97,7 +97,7 @@ python scripts/validate_curriculum.py 输出目录/curriculum.yaml --strict
 
 ## 长期维护约定
 
-- 新视频拆解：按上面的流程产出后，把 `lesson.md` + `evidence/` 放进 `lessons/<视频名>/`；Curriculum 模式还必须加入 `curriculum.md`、`curriculum.yaml` 与 `units/`。
+- 新视频拆解：按上面的流程产出后，把 `lesson.md` + `evidence/` 放进 `lessons/<视频名>/`；Curriculum 模式还必须加入 `curriculum.md`、`course/`、`curriculum.yaml` 与 `units/`。
 - 技能更新：改 `SKILL.md`、`scripts/`、`references/` 后跑 `quick_validate.py` 与脚本实测再提交。
 - 推送到 GitHub 一律走分支 + Pull Request，不直接推 `main`；合入 `main` 需仓库维护者确认。
 - 教程播放量只是检索日快照，引用前请打开确认内容。
